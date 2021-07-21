@@ -21,6 +21,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private Quaternion m_CameraTargetRot;
         private bool m_cursorIsLocked = true;
 
+        public void SetRotY(float _rotY) {
+            m_CharacterTargetRot = Quaternion.Euler(0f, _rotY, 0f);
+        }
+
         public void Init(Transform character, Transform camera)
         {
             m_CharacterTargetRot = character.localRotation;

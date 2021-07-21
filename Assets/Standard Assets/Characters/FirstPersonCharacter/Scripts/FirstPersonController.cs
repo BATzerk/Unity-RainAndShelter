@@ -43,8 +43,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
+        public MouseLook MouseLook { get { return m_MouseLook; } }
+
         // Use this for initialization
-        private void Start()
+                private void Start()
         {
             m_CharacterController = GetComponent<CharacterController>();
             m_Camera = Camera.main;
