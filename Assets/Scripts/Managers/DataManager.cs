@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml.Serialization;
 using UnityEngine;
 
-
+/*
 [System.Serializable]
 public class SerializedTransform {
     public float[] pos = new float[3]; // GLOBAL
@@ -32,6 +32,7 @@ public class SerializedTransform {
         tf.lossyScale.Set(stf.scale[0], stf.scale[1], stf.scale[2]);
     }
 }
+*/
 
 
 public class DataManager {

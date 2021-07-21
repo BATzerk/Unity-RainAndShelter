@@ -5,9 +5,18 @@ using UnityEngine;
 
 [Serializable]
 public class PlayerInventory {
-    public int numSticks;
+    // Properties
+    [SerializeField] private int numSticks;
+
+    // Getters / Setters
+    public int NumSticks { get { return numSticks; } }
+    public void SetNumSticks(int val) {
+        numSticks = val;
+        EventBus.Instance.OnPlayerInventoryChanged();
+    }
 
 
+    // Constructor
     public PlayerInventory() {
         numSticks = 0;
     }
@@ -15,7 +24,7 @@ public class PlayerInventory {
 
     // Doers
     public void CollectStick() {
-        numSticks++;
+        SetNumSticks(numSticks + 1);
     }
 
 }

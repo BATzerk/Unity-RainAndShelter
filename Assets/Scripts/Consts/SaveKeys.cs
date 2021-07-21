@@ -11,6 +11,7 @@ public static class SaveKeys {
     public const string PlayerPos = "PlayerPos";
     //public const string PlayerRot = "PlayerRot";
     public const string PlayerRotY = "PlayerRotY";
+    public const string FieldPropsData = "FieldPropsData";
     //public static string LastPlayedLevelInPack(int packIndex) { return "LastPlayedLevelInPack_" + packIndex; }
     //public static string DidCompleteLevel(LevelAddress address) { return "DidCompleteLevel_" + address.ToString(); }
 

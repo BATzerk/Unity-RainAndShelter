@@ -8,20 +8,29 @@ public class ResourcesHandler : MonoBehaviour {
     [SerializeField] public GameObject ImageLine;
     [SerializeField] public GameObject ImageLinesJoint;
     
-    [Header ("PrioritiesGame")]
-    [SerializeField] public Material m_Additive;
-    [SerializeField] public GameObject UFOShootDown_Missile;
-    
-    [SerializeField] public GameObject JugglingGame_Ball;
-    [SerializeField] public GameObject PremadePrioToggle;
-    //[SerializeField] public GameObject PriosFinalRankRowView;
-    [SerializeField] public GameObject PriosManualRankRowBacking;
-    [SerializeField] public GameObject PriosManualRankRowViewAuto;
-    [SerializeField] public GameObject PriosManualRankRowViewManual;
-    
-    
-    
-    
+    [Header ("RainAndShelter")]
+    [SerializeField] public GameObject Bush;
+    [SerializeField] public GameObject Tree;
+    [SerializeField] public GameObject Stick;
+    [SerializeField] private GameObject[] bushBodies; // the sub-prefabs.
+
+
+
+    public GameObject GetBushBody(BushType type) {
+        //return bushBodies[type];
+        switch (type) {
+            case BushType.Type0: return bushBodies[0];
+            case BushType.Type1: return bushBodies[1];
+            case BushType.Type2: return bushBodies[2];
+            case BushType.Type3: return bushBodies[3];
+            case BushType.Type4: return bushBodies[4];
+            default: Debug.LogError("Oops, no bush body in ResourcesHandler for this BushType: " + type); return null;
+        }
+    }
+
+
+
+
     // Instance
     static public ResourcesHandler Instance { get; private set; }
 

@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 {
     // References
     [SerializeField] Player player;
+    [SerializeField] GameObject defaultFieldPropsGO;
 
 
     // Getters
@@ -19,6 +20,9 @@ public class GameController : MonoBehaviour
     void Start() {
         ReloadFromSave();
     }
+    private void DestroyDefaultFieldProps() {
+        Destroy(defaultFieldPropsGO);
+    }
 
 
 
@@ -26,17 +30,46 @@ public class GameController : MonoBehaviour
     //  Save / Load
     // ----------------------------------------------------------------
     private void ReloadFromSave() {
-        Vector3 _pos = SaveStorage.GetVector3(SaveKeys.PlayerPos, Vector3.zero);
+        // Player pos/rot
+        Vector3 _pos = SaveStorage.GetVector3(SaveKeys.PlayerPos, player.GetPos()); // default to the player's current (aka default, fresh-save) pos
         player.SetPos(new Vector3(_pos.x, _pos.y, _pos.z));
         float rotY = SaveStorage.GetFloat(SaveKeys.PlayerRotY);
         player.SetRotY(rotY);
+        // Player inventory
         dm.LoadPlayerInventory();
-        Debug.Log("numSticks: " + dm.PlayerInventory.numSticks);
+        // FieldPropsData
+        {
+            string saveKey = SaveKeys.FieldPropsData;
+            // We DO have the save!
+            if (SaveStorage.HasKey(saveKey)) {
+                DestroyDefaultFieldProps(); // Destroy the default stuff out there.
+                string saveStr = SaveStorage.GetString(saveKey);
+                FieldPropsData fieldPropsData = JsonUtility.FromJson<FieldPropsData>(saveStr);
+                foreach (BushData data in fieldPropsData.bushDatas) {
+                    Bush newObj = Instantiate(ResourcesHandler.Instance.Bush).GetComponent<Bush>();
+                    newObj.Initialize(data);
+                }
+                foreach (TreeData data in fieldPropsData.treeDatas) {
+                    Tree newObj = Instantiate(ResourcesHandler.Instance.Tree).GetComponent<Tree>();
+                    newObj.Initialize(data);
+                }
+                foreach (StickData data in fieldPropsData.stickDatas) {
+                    Stick newObj = Instantiate(ResourcesHandler.Instance.Stick).GetComponent<Stick>();
+                    newObj.Initialize(data);
+                }
+            }
+        }
     }
     private void SaveGameState() {
-        SaveStorage.SetVector3   (SaveKeys.PlayerPos, player.gameObject.transform.position);
+        // Player and Inventory
+        SaveStorage.SetVector3(SaveKeys.PlayerPos, player.GetPos());
         SaveStorage.SetFloat(SaveKeys.PlayerRotY, player.GetRotY());
         dm.SavePlayerInventory();
+        // FieldPropsData
+        FieldPropsData fieldPropsData = new FieldPropsData();
+        fieldPropsData.PopulateFromWorld();
+        SaveStorage.SetString(SaveKeys.FieldPropsData, JsonUtility.ToJson(fieldPropsData));
+
         Debug.Log("Saved game state.");
     }
 
@@ -62,7 +95,6 @@ public class GameController : MonoBehaviour
         // DEBUG
         if (Input.GetKeyDown(KeyCode.T)) {
             dm.PlayerInventory.CollectStick();
-            player.gameObject.transform.position = new Vector3(20, 100, 50);//QQQ
         }
 
 

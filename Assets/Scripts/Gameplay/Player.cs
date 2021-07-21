@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
     [SerializeField] private CharacterController charController;
 
     // Getters / Setters
+    public Vector3 GetPos() { return gameObject.transform.position; }
     public void SetPos(Vector3 _pos) {
         charController.enabled = false;
         gameObject.transform.position = _pos;

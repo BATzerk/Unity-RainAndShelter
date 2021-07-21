@@ -47,7 +47,7 @@ public class ScreenHandler : MonoBehaviour {
 		screenScale = Mathf.Min (((float)Screen.width)/originalScreenSize.x, ((float)Screen.height)/originalScreenSize.y);
 		relativeScreenSize = new Vector2 (Screen.width/screenScale+1f, Screen.height/screenScale+1f); // NOTE: Add bloat!! I added this when I discovered mobile resolution was returning 638.5 instead of 640 width (for 640x1136). The simple, cheap fix is to bloat the screen size a tad.
 		// Dispatch!
-		GameManagers.Instance.EventManager.OnScreenSizeChanged ();
+		EventBus.Instance.OnScreenSizeChanged ();
 	}
 
 

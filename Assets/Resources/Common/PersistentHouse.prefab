@@ -131,13 +131,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ImageLine: {fileID: 1551218063471392, guid: 7efa12b7c35d1a749aaae848eba0d8e2, type: 3}
   ImageLinesJoint: {fileID: 1586272661960996, guid: 6d0cc624a21c645cc81a888903aa4d14, type: 3}
-  m_Additive: {fileID: 0}
-  UFOShootDown_Missile: {fileID: 51, guid: aacb98e3de811477ab053a34fc85346b, type: 3}
-  JugglingGame_Ball: {fileID: 1468786690381050542, guid: 51813604f7cfd4dd682554153aeb47ff, type: 3}
-  PremadePrioToggle: {fileID: 2342225788460550430, guid: 1e514838795624b759d7c4cbbc5b863b, type: 3}
-  PriosManualRankRowBacking: {fileID: 8999419716661123416, guid: f670b1b53769a456e907478cb44771bb, type: 3}
-  PriosManualRankRowViewAuto: {fileID: 8999419716661123416, guid: f2d09f3d1e0ec4f8a9838740d3d82a7a, type: 3}
-  PriosManualRankRowViewManual: {fileID: 8999419716661123416, guid: dce9c4e20675b4fa8994fd52e329a4f5, type: 3}
+  Bush: {fileID: 8226623138055876833, guid: f394c5b37ad8e443e97ee6355b051037, type: 3}
+  Tree: {fileID: 1148613061152340, guid: eded051879df4c147b9010199d240258, type: 3}
+  Stick: {fileID: 5288428147559673994, guid: 80e74fab446774d408679c59ff9fdaf6, type: 3}
+  bushBodies:
+  - {fileID: 1253365200111527898, guid: 8109e9e16ba4cc04b8e0928aea897927, type: 3}
+  - {fileID: 7992715529498131577, guid: 0cc0db2b14252644da9f1f74ed0c8f90, type: 3}
+  - {fileID: 6786704563919835699, guid: ff0b0a3d7ae7a9e4f8505795785ad853, type: 3}
+  - {fileID: 2121115777601418451, guid: e334e6614ad50f749b0a37528784c614, type: 3}
+  - {fileID: 4119340359363394084, guid: 431e05c5e2b18ba4fa6b3b0a6f687786, type: 3}
 --- !u!1 &1742042021377422
 GameObject:
   m_ObjectHideFlags: 0

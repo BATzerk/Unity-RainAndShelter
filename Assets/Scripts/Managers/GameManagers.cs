@@ -4,10 +4,8 @@ using System.Collections;
 public class GameManagers {
 	// Managers
 	private DataManager dataManager;
-	private EventManager eventManager;
 	// Getters
     public DataManager DataManager { get { return dataManager; } }
-	public EventManager EventManager { get { return eventManager; } }
 	// Properties
 	public static bool IsInitializing { get; private set; }
 
@@ -16,7 +14,6 @@ public class GameManagers {
 	// Constructor / Initialize
 	private GameManagers () {
 		dataManager = new DataManager ();
-		eventManager = new EventManager ();
 	}
 
 
