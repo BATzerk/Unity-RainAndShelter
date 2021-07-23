@@ -56,7 +56,9 @@ public class StickData : PropData {
 }
 [Serializable]
 public class TreeData : PropData {
+    public TreeType treeType;
     public TreeData(Tree myProp) {
+        treeType = myProp.MyType;
         pos = myProp.gameObject.transform.position;
         rot = myProp.gameObject.transform.eulerAngles;
         scale = myProp.gameObject.transform.lossyScale;

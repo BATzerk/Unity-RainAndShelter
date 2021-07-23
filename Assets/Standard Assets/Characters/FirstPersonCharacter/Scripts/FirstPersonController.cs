@@ -46,7 +46,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public MouseLook MouseLook { get { return m_MouseLook; } }
 
         // Use this for initialization
-                private void Start()
+        private void Awake()
         {
             m_CharacterController = GetComponent<CharacterController>();
             m_Camera = Camera.main;

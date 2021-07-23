@@ -58,6 +58,38 @@ public class GameController : MonoBehaviour
                     newObj.Initialize(data);
                 }
             }
+            // We DON'T have a save.
+            else {
+                int lm_terrain = 1 << LayerMask.NameToLayer("Terrain");
+                RaycastHit hit;
+                
+                // Randomly add bushes.
+                for (int i=0; i<100; i++) {
+                    float x = Random.Range(20, 250);
+                    float z = Random.Range(30, 200);
+                    if (Physics.Raycast(new Vector3(x,1000,z), Vector3.down, out hit, 9999, lm_terrain)) {
+                        // Add a bush at the hit pos!
+                        Vector3 pos = hit.point;
+                        Vector3 rot = new Vector3(0, Random.Range(0,360), 0);
+                        Vector3 scale = Vector3.one;
+                        Bush obj = Instantiate(ResourcesHandler.Instance.Bush).GetComponent<Bush>();
+                        obj.Initialize(pos, rot, scale, Bush.GetRandomType());
+                    }
+                }
+                // Randomly add trees.
+                for (int i=0; i<50; i++) {
+                    float x = Random.Range(20, 250);
+                    float z = Random.Range(30, 200);
+                    if (Physics.Raycast(new Vector3(x,1000,z), Vector3.down, out hit, 9999, lm_terrain)) {
+                        // Add a bush at the hit pos!
+                        Vector3 pos = hit.point;
+                        Vector3 rot = new Vector3(0, Random.Range(0,360), 0);
+                        Vector3 scale = Vector3.one * Random.Range(0.4f, 1.2f);
+                        Tree obj = Instantiate(ResourcesHandler.Instance.Tree).GetComponent<Tree>();
+                        obj.Initialize(pos, rot, scale, Tree.GetRandomType());
+                    }
+                }
+            }
         }
     }
     private void SaveGameState() {
@@ -94,7 +126,8 @@ public class GameController : MonoBehaviour
 
         // DEBUG
         if (Input.GetKeyDown(KeyCode.T)) {
-            dm.PlayerInventory.CollectStick();
+            //dm.PlayerInventory.CollectStick();
+            player.SetRotY(90);//QQQ
         }
 
 

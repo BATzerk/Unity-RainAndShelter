@@ -7,6 +7,9 @@ public class Player : MonoBehaviour {
     [SerializeField] private GameObject myCamGO;
     [SerializeField] private UnityStandardAssets.Characters.FirstPerson.FirstPersonController myFPC;
     [SerializeField] private CharacterController charController;
+    // Properties
+    private RaycastHit hit;
+    public bool IsInRain { get; private set; }
 
     // Getters / Setters
     public Vector3 GetPos() { return gameObject.transform.position; }
@@ -21,6 +24,12 @@ public class Player : MonoBehaviour {
     }
 
 
+
+
+    private void FixedUpdate() {
+        // Update IsInRain!
+        IsInRain = !Physics.Raycast(transform.position, Vector3.up, out hit, 9999);
+    }
 
 
 }

@@ -9,6 +9,9 @@ public enum BushType : int {
 }
 
 public class Bush : MonoBehaviour, IClickable {
+    // Statics
+    public static BushType GetRandomType() { return (BushType) Random.Range(1, 5); }
+
     // Components
     [SerializeField] MeshRenderer mr_bodyHighlight;
     [SerializeField] GameObject myBodyGO; // this is created dynamically!
@@ -25,11 +28,14 @@ public class Bush : MonoBehaviour, IClickable {
     //  Initialize
     // ----------------------------------------------------------------
     public void Initialize(BushData data) {
+        Initialize(data.pos,data.rot,data.scale, data.bushType);
+    }
+    public void Initialize(Vector3 pos,Vector3 rot,Vector3 scale, BushType bushType) {
         // Transform
-        myType = data.bushType;
-        gameObject.transform.position = data.pos;
-        gameObject.transform.eulerAngles = data.rot;
-        gameObject.transform.localScale = data.scale;
+        myType = bushType;
+        gameObject.transform.position = pos;
+        gameObject.transform.eulerAngles = rot;
+        gameObject.transform.localScale = scale;
         // Set my visuals based on my type!
         // First, delete the placeholder visual.
         Destroy(myBodyGO);

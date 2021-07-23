@@ -2,13 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TreeType : int {
+    Undefined,
+    Type0, Type1, Type2
+}
+
 public class Tree : MonoBehaviour, IClickable {
+    // Statics
+    public static TreeType GetRandomType() { return (TreeType)Random.Range(1, 3); }
+
     // Components
     [SerializeField] MeshRenderer mr_bodyHighlight;
     // Properties
+    [SerializeField] private TreeType myType; // NOTE: UNUSED CURRENTLY.
     private int numTimesClicked = 0;
 
+    // Getters
     public bool IsClickable() { return false; }
+    public TreeType MyType { get { return myType; } }
 
 
 
@@ -16,9 +27,15 @@ public class Tree : MonoBehaviour, IClickable {
     //  Initialize
     // ----------------------------------------------------------------
     public void Initialize(TreeData data) {
-        gameObject.transform.position = data.pos;
-        gameObject.transform.eulerAngles = data.rot;
-        gameObject.transform.localScale = data.scale;
+        Initialize(data.pos, data.rot, data.scale, data.treeType);
+    }
+    public void Initialize(Vector3 pos, Vector3 rot, Vector3 scale, TreeType treeType) {
+        // Transform
+        myType = treeType;
+        gameObject.transform.position = pos;
+        gameObject.transform.eulerAngles = rot;
+        gameObject.transform.localScale = scale;
+
         numTimesClicked = 0;
         mr_bodyHighlight.enabled = false;
     }

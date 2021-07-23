@@ -24,7 +24,7 @@ public class ResourcesHandler : MonoBehaviour {
             case BushType.Type2: return bushBodies[2];
             case BushType.Type3: return bushBodies[3];
             case BushType.Type4: return bushBodies[4];
-            default: Debug.LogError("Oops, no bush body in ResourcesHandler for this BushType: " + type); return null;
+            default: Debug.LogError("Oops, no bush body in ResourcesHandler for this BushType: " + type); return bushBodies[0];
         }
     }
 
