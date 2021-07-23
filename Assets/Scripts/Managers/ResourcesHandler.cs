@@ -7,8 +7,9 @@ public class ResourcesHandler : MonoBehaviour {
     [Header ("Common")]
     [SerializeField] public GameObject ImageLine;
     [SerializeField] public GameObject ImageLinesJoint;
-    
-    [Header ("RainAndShelter")]
+
+    [Header("RainAndShelter")]
+    [SerializeField] public GameObject Placeable;
     [SerializeField] public GameObject Bush;
     [SerializeField] public GameObject Tree;
     [SerializeField] public GameObject Stick;

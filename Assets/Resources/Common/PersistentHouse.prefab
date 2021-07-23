@@ -131,6 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ImageLine: {fileID: 1551218063471392, guid: 7efa12b7c35d1a749aaae848eba0d8e2, type: 3}
   ImageLinesJoint: {fileID: 1586272661960996, guid: 6d0cc624a21c645cc81a888903aa4d14, type: 3}
+  Placeable: {fileID: 7891357218825188859, guid: ce77a586e13b14aa59638146b729ac43, type: 3}
   Bush: {fileID: 8226623138055876833, guid: f394c5b37ad8e443e97ee6355b051037, type: 3}
   Tree: {fileID: 1148613061152340, guid: eded051879df4c147b9010199d240258, type: 3}
   Stick: {fileID: 5288428147559673994, guid: 80e74fab446774d408679c59ff9fdaf6, type: 3}

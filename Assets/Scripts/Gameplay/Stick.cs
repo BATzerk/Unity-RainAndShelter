@@ -18,13 +18,13 @@ public class Stick : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     //  Initialize
     // ----------------------------------------------------------------
-    public void Initialize(StickData data) {
-        gameObject.transform.position = data.pos;
-        gameObject.transform.eulerAngles = data.rot;
+    public void Initialize(Transform parent, StickData data) {
+        Initialize(parent, data.pos, data.rot);
     }
-    public void Initialize(Vector3 _pos, Vector3 _rot) {
-        gameObject.transform.position = _pos;
-        gameObject.transform.eulerAngles = _rot;
+    public void Initialize(Transform parent, Vector3 _pos, Vector3 _rot) {
+        this.transform.parent = parent;
+        this.transform.position = _pos;
+        this.transform.eulerAngles = _rot;
     }
 
 

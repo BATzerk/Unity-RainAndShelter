@@ -27,15 +27,16 @@ public class Bush : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     //  Initialize
     // ----------------------------------------------------------------
-    public void Initialize(BushData data) {
-        Initialize(data.pos,data.rot,data.scale, data.bushType);
+    public void Initialize(Transform parent, BushData data) {
+        Initialize(parent, data.pos,data.rot,data.scale, data.bushType);
     }
-    public void Initialize(Vector3 pos,Vector3 rot,Vector3 scale, BushType bushType) {
+    public void Initialize(Transform parent, Vector3 pos,Vector3 rot,Vector3 scale, BushType bushType) {
         // Transform
-        myType = bushType;
-        gameObject.transform.position = pos;
-        gameObject.transform.eulerAngles = rot;
-        gameObject.transform.localScale = scale;
+        this.myType = bushType;
+        this.transform.parent = parent;
+        this.transform.position = pos;
+        this.transform.eulerAngles = rot;
+        this.transform.localScale = scale;
         // Set my visuals based on my type!
         // First, delete the placeholder visual.
         Destroy(myBodyGO);
@@ -63,7 +64,7 @@ public class Bush : MonoBehaviour, IClickable {
             Rigidbody rigidbody = newStick.GetComponent<Rigidbody>();
             rigidbody.angularVelocity = new Vector3(Random.Range(-40, 40), Random.Range(-40, 40), Random.Range(-40, 40));
             rigidbody.velocity = new Vector3(Random.Range(-2, 2), 4, Random.Range(-2,2));
-            newStick.Initialize(_pos, _rot);
+            newStick.Initialize(transform.parent, _pos, _rot);
         }
 
         // Shake it, baby!

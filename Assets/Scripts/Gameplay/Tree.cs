@@ -26,15 +26,16 @@ public class Tree : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     //  Initialize
     // ----------------------------------------------------------------
-    public void Initialize(TreeData data) {
-        Initialize(data.pos, data.rot, data.scale, data.treeType);
+    public void Initialize(Transform parent, TreeData data) {
+        Initialize(parent, data.pos, data.rot, data.scale, data.treeType);
     }
-    public void Initialize(Vector3 pos, Vector3 rot, Vector3 scale, TreeType treeType) {
+    public void Initialize(Transform parent, Vector3 pos, Vector3 rot, Vector3 scale, TreeType treeType) {
         // Transform
-        myType = treeType;
-        gameObject.transform.position = pos;
-        gameObject.transform.eulerAngles = rot;
-        gameObject.transform.localScale = scale;
+        this.myType = treeType;
+        this.transform.parent = parent;
+        this.transform.position = pos;
+        this.transform.eulerAngles = rot;
+        this.transform.localScale = scale;
 
         numTimesClicked = 0;
         mr_bodyHighlight.enabled = false;
@@ -55,7 +56,7 @@ public class Tree : MonoBehaviour, IClickable {
                 Vector3 _pos = transform.position + new Vector3(0, Random.Range(0.5f, 5f), 0);
                 Vector3 _rot = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
                 Stick newStick = GameObject.Instantiate(ResourcesHandler.Instance.Stick).GetComponent<Stick>();
-                newStick.Initialize(_pos, _rot);
+                newStick.Initialize(transform.parent, _pos, _rot);
             }
             // Finally, destroy me. I'm toast.
             Destroy(gameObject);

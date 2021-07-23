@@ -229,10 +229,15 @@ public static class GameUtils {
     // ----------------------------------------------------------------
     //  Particle Systems
     // ----------------------------------------------------------------
-    public static void SetParticleSystemEmissionEnabled (ParticleSystem particleSystem, bool isEnabled) {
+    public static void SetParticleSystemEmissionEnabled(ParticleSystem particleSystem, bool isEnabled) {
         ParticleSystem.EmissionModule m;
         m = particleSystem.emission;
         m.enabled = isEnabled;
+    }
+    public static void SetParticleSystemEmissionRate(ParticleSystem particleSystem, float rate) {
+        ParticleSystem.EmissionModule m;
+        m = particleSystem.emission;
+        m.rateOverTime = rate;
     }
     public static void SetParticleSystemColor (ParticleSystem ps, Color _color) {
         ParticleSystem.MainModule m = ps.main;

@@ -6,11 +6,13 @@ public class GameController : MonoBehaviour
 {
     // References
     [SerializeField] Player player;
-    [SerializeField] GameObject defaultFieldPropsGO;
+    [SerializeField] Transform fieldPropsTF;
+    [SerializeField] WeatherController weatherController;
 
 
     // Getters
     private DataManager dm { get { return GameManagers.Instance.DataManager; } }
+    public Transform FieldPropsTF { get { return fieldPropsTF; } }
 
 
 
@@ -20,8 +22,10 @@ public class GameController : MonoBehaviour
     void Start() {
         ReloadFromSave();
     }
-    private void DestroyDefaultFieldProps() {
-        Destroy(defaultFieldPropsGO);
+    private void DestroyFieldProps() {
+        for (int i=fieldPropsTF.childCount-1; i>=0; i--) {
+            Destroy(fieldPropsTF.GetChild(i));
+        }
     }
 
 
@@ -37,25 +41,32 @@ public class GameController : MonoBehaviour
         player.SetRotY(rotY);
         // Player inventory
         dm.LoadPlayerInventory();
+        // WeatherController
+        weatherController.LoadWeatherValues();
         // FieldPropsData
         {
             string saveKey = SaveKeys.FieldPropsData;
             // We DO have the save!
             if (SaveStorage.HasKey(saveKey)) {
-                DestroyDefaultFieldProps(); // Destroy the default stuff out there.
+                DestroyFieldProps(); // Destroy the default stuff out there.
                 string saveStr = SaveStorage.GetString(saveKey);
                 FieldPropsData fieldPropsData = JsonUtility.FromJson<FieldPropsData>(saveStr);
+
+                foreach (PlaceableData data in fieldPropsData.placeableDatas) {
+                    Placeable newObj = Instantiate(ResourcesHandler.Instance.Placeable).GetComponent<Placeable>();
+                    newObj.Initialize(fieldPropsTF, data);
+                }
                 foreach (BushData data in fieldPropsData.bushDatas) {
                     Bush newObj = Instantiate(ResourcesHandler.Instance.Bush).GetComponent<Bush>();
-                    newObj.Initialize(data);
+                    newObj.Initialize(fieldPropsTF, data);
                 }
                 foreach (TreeData data in fieldPropsData.treeDatas) {
                     Tree newObj = Instantiate(ResourcesHandler.Instance.Tree).GetComponent<Tree>();
-                    newObj.Initialize(data);
+                    newObj.Initialize(fieldPropsTF, data);
                 }
                 foreach (StickData data in fieldPropsData.stickDatas) {
                     Stick newObj = Instantiate(ResourcesHandler.Instance.Stick).GetComponent<Stick>();
-                    newObj.Initialize(data);
+                    newObj.Initialize(fieldPropsTF, data);
                 }
             }
             // We DON'T have a save.
@@ -73,7 +84,7 @@ public class GameController : MonoBehaviour
                         Vector3 rot = new Vector3(0, Random.Range(0,360), 0);
                         Vector3 scale = Vector3.one;
                         Bush obj = Instantiate(ResourcesHandler.Instance.Bush).GetComponent<Bush>();
-                        obj.Initialize(pos, rot, scale, Bush.GetRandomType());
+                        obj.Initialize(fieldPropsTF, pos, rot, scale, Bush.GetRandomType());
                     }
                 }
                 // Randomly add trees.
@@ -86,7 +97,7 @@ public class GameController : MonoBehaviour
                         Vector3 rot = new Vector3(0, Random.Range(0,360), 0);
                         Vector3 scale = Vector3.one * Random.Range(0.4f, 1.2f);
                         Tree obj = Instantiate(ResourcesHandler.Instance.Tree).GetComponent<Tree>();
-                        obj.Initialize(pos, rot, scale, Tree.GetRandomType());
+                        obj.Initialize(fieldPropsTF, pos, rot, scale, Tree.GetRandomType());
                     }
                 }
             }
@@ -97,9 +108,11 @@ public class GameController : MonoBehaviour
         SaveStorage.SetVector3(SaveKeys.PlayerPos, player.GetPos());
         SaveStorage.SetFloat(SaveKeys.PlayerRotY, player.GetRotY());
         dm.SavePlayerInventory();
+        // WeatherController
+        weatherController.SaveWeatherValues();
         // FieldPropsData
         FieldPropsData fieldPropsData = new FieldPropsData();
-        fieldPropsData.PopulateFromWorld();
+        fieldPropsData.PopulateFromWorld(fieldPropsTF);
         SaveStorage.SetString(SaveKeys.FieldPropsData, JsonUtility.ToJson(fieldPropsData));
 
         Debug.Log("Saved game state.");
@@ -115,6 +128,7 @@ public class GameController : MonoBehaviour
         RegisterButtonInput();
     }
 
+
     private void RegisterButtonInput() {
         // SHIFT + ____
         if (Input.GetKey(KeyCode.LeftShift)) {
@@ -127,7 +141,7 @@ public class GameController : MonoBehaviour
         // DEBUG
         if (Input.GetKeyDown(KeyCode.T)) {
             //dm.PlayerInventory.CollectStick();
-            player.SetRotY(90);//QQQ
+            weatherController.CurrTime += 10;
         }
 
 

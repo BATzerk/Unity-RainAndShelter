@@ -6,23 +6,28 @@ using UnityEngine;
 [Serializable]
 public class FieldPropsData {
     // Properties
+    public List<PlaceableData> placeableDatas = new List<PlaceableData>();
     public List<BushData> bushDatas = new List<BushData>();
     public List<TreeData> treeDatas = new List<TreeData>();
     public List<StickData> stickDatas=new List<StickData>();
 
     // Creation
-    public void PopulateFromWorld() {
+    public void PopulateFromWorld(Transform containerTF) {
+        placeableDatas = new List<PlaceableData>();
         bushDatas = new List<BushData>();
         treeDatas = new List<TreeData>();
         stickDatas = new List<StickData>();
 
-        foreach (Bush obj in GameObject.FindObjectsOfType<Bush>()) {
+        foreach (Placeable obj in containerTF.GetComponentsInChildren<Placeable>()) {
+            placeableDatas.Add(new PlaceableData(obj));
+        }
+        foreach (Bush obj in containerTF.GetComponentsInChildren<Bush>()) {
             bushDatas.Add(new BushData(obj));
         }
-        foreach (Tree obj in GameObject.FindObjectsOfType<Tree>()) {
+        foreach (Tree obj in containerTF.GetComponentsInChildren<Tree>()) {
             treeDatas.Add(new TreeData(obj));
         }
-        foreach (Stick obj in GameObject.FindObjectsOfType<Stick>()) {
+        foreach (Stick obj in containerTF.GetComponentsInChildren<Stick>()) {
             stickDatas.Add(new StickData(obj));
         }
     }
@@ -38,20 +43,30 @@ public class PropData {
 
 
 [Serializable]
+public class PlaceableData : PropData {
+    public PlaceableType myType;
+    public PlaceableData(Placeable myProp) {
+        myType = myProp.MyType;
+        pos = myProp.transform.position;
+        rot = myProp.transform.eulerAngles;
+        scale = myProp.transform.lossyScale;
+    }
+}
+[Serializable]
 public class BushData : PropData {
     public BushType bushType;
     public BushData(Bush myProp) {
         bushType = myProp.MyType;
-        pos = myProp.gameObject.transform.position;
-        rot = myProp.gameObject.transform.eulerAngles;
-        scale = myProp.gameObject.transform.lossyScale;
+        pos = myProp.transform.position;
+        rot = myProp.transform.eulerAngles;
+        scale = myProp.transform.lossyScale;
     }
 }
 [Serializable]
 public class StickData : PropData {
     public StickData(Stick myStick) {
-        pos = myStick.gameObject.transform.position;
-        rot = myStick.gameObject.transform.eulerAngles;
+        pos = myStick.transform.position;
+        rot = myStick.transform.eulerAngles;
     }
 }
 [Serializable]
@@ -59,9 +74,9 @@ public class TreeData : PropData {
     public TreeType treeType;
     public TreeData(Tree myProp) {
         treeType = myProp.MyType;
-        pos = myProp.gameObject.transform.position;
-        rot = myProp.gameObject.transform.eulerAngles;
-        scale = myProp.gameObject.transform.lossyScale;
+        pos = myProp.transform.position;
+        rot = myProp.transform.eulerAngles;
+        scale = myProp.transform.lossyScale;
     }
 }
 
