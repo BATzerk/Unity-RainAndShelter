@@ -9,7 +9,9 @@ public class FieldPropsData {
     public List<PlaceableData> placeableDatas = new List<PlaceableData>();
     public List<BushData> bushDatas = new List<BushData>();
     public List<TreeData> treeDatas = new List<TreeData>();
-    public List<StickData> stickDatas=new List<StickData>();
+    public List<RockData> rockDatas = new List<RockData>();
+    public List<StoneData> stoneDatas = new List<StoneData>();
+    public List<StickData> stickDatas = new List<StickData>();
 
     // Creation
     public void PopulateFromWorld(Transform containerTF) {
@@ -26,6 +28,12 @@ public class FieldPropsData {
         }
         foreach (Tree obj in containerTF.GetComponentsInChildren<Tree>()) {
             treeDatas.Add(new TreeData(obj));
+        }
+        foreach (Rock obj in containerTF.GetComponentsInChildren<Rock>()) {
+            rockDatas.Add(new RockData(obj));
+        }
+        foreach (Stone obj in containerTF.GetComponentsInChildren<Stone>()) {
+            stoneDatas.Add(new StoneData(obj));
         }
         foreach (Stick obj in containerTF.GetComponentsInChildren<Stick>()) {
             stickDatas.Add(new StickData(obj));
@@ -60,6 +68,23 @@ public class BushData : PropData {
         pos = myProp.transform.position;
         rot = myProp.transform.eulerAngles;
         scale = myProp.transform.lossyScale;
+    }
+}
+[Serializable]
+public class RockData : PropData {
+    public RockType myType;
+    public RockData(Rock myProp) {
+        myType = myProp.MyType;
+        pos = myProp.transform.position;
+        rot = myProp.transform.eulerAngles;
+        scale = myProp.transform.lossyScale;
+    }
+}
+[Serializable]
+public class StoneData : PropData {
+    public StoneData(Stone myProp) {
+        pos = myProp.transform.position;
+        rot = myProp.transform.eulerAngles;
     }
 }
 [Serializable]

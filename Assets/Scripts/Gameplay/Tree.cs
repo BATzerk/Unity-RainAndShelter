@@ -47,7 +47,8 @@ public class Tree : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     //  Events
     // ----------------------------------------------------------------
-    public void OnClickMe() {
+    public void OnRClickMe(Player player) { }
+    public void OnLClickMe(Player player) {
         numTimesClicked++;
         if (numTimesClicked >= 3) {
             // Spawn some sticksss!

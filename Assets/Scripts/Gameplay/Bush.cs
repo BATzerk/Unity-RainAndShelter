@@ -55,7 +55,8 @@ public class Bush : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     //  Events
     // ----------------------------------------------------------------
-    public void OnClickMe() {
+    public void OnRClickMe(Player player) { }
+    public void OnLClickMe(Player player) {
         // Maybe maybe spawn a stick!
         if (Random.Range(0f, 1f) > 0.5f) {
             Vector3 _pos = transform.position + new Vector3(0, 1, 0);// Random.Range(0.5f, 5f), 0);
@@ -63,7 +64,7 @@ public class Bush : MonoBehaviour, IClickable {
             Stick newStick = GameObject.Instantiate(ResourcesHandler.Instance.Stick).GetComponent<Stick>();
             Rigidbody rigidbody = newStick.GetComponent<Rigidbody>();
             rigidbody.angularVelocity = new Vector3(Random.Range(-40, 40), Random.Range(-40, 40), Random.Range(-40, 40));
-            rigidbody.velocity = new Vector3(Random.Range(-2, 2), 4, Random.Range(-2,2));
+            rigidbody.velocity = new Vector3(Random.Range(-1.2f, 1.2f), 4, Random.Range(-1.2f, 1.2f));
             newStick.Initialize(transform.parent, _pos, _rot);
         }
 

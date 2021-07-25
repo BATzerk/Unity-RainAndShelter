@@ -9,7 +9,10 @@ public class Player : MonoBehaviour {
     [SerializeField] private CharacterController charController;
     // Properties
     private RaycastHit hit;
+    public bool IsInRain { get; private set; }
     public bool IsUnderShelter { get; private set; }
+    // References
+    [SerializeField] private WeatherController weatherController;
 
     // Getters / Setters
     public Vector3 GetPos() { return gameObject.transform.position; }
@@ -27,11 +30,18 @@ public class Player : MonoBehaviour {
 
 
     // ----------------------------------------------------------------
-    //  FixedUpdate
+    //  Update
     // ----------------------------------------------------------------
-    private void FixedUpdate() {
-        // Update IsInRain!
+    private void Update() {
+        //bool pIsInRain = IsInRain;
+
+        // Update IsUnderShelter!
         IsUnderShelter = Physics.Raycast(transform.position, Vector3.up, out hit, 9999);
+        IsInRain = weatherController.IsRaining && !IsUnderShelter;
+
+        //if (IsInRain != pIsInRain) {
+        //    EventBus.Instance.OnPlayerIsInRainChanged();
+        //}
     }
 
 

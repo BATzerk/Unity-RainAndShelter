@@ -54,7 +54,7 @@ public class GameController : MonoBehaviour
 
                 foreach (PlaceableData data in fieldPropsData.placeableDatas) {
                     Placeable newObj = Instantiate(ResourcesHandler.Instance.Placeable).GetComponent<Placeable>();
-                    newObj.Initialize(fieldPropsTF, data);
+                    newObj.Initialize(this, data);
                 }
                 foreach (BushData data in fieldPropsData.bushDatas) {
                     Bush newObj = Instantiate(ResourcesHandler.Instance.Bush).GetComponent<Bush>();
@@ -62,6 +62,14 @@ public class GameController : MonoBehaviour
                 }
                 foreach (TreeData data in fieldPropsData.treeDatas) {
                     Tree newObj = Instantiate(ResourcesHandler.Instance.Tree).GetComponent<Tree>();
+                    newObj.Initialize(fieldPropsTF, data);
+                }
+                foreach (RockData data in fieldPropsData.rockDatas) {
+                    Rock newObj = Instantiate(ResourcesHandler.Instance.Rock).GetComponent<Rock>();
+                    newObj.Initialize(fieldPropsTF, data);
+                }
+                foreach (StoneData data in fieldPropsData.stoneDatas) {
+                    Stone newObj = Instantiate(ResourcesHandler.Instance.Stone).GetComponent<Stone>();
                     newObj.Initialize(fieldPropsTF, data);
                 }
                 foreach (StickData data in fieldPropsData.stickDatas) {
@@ -73,26 +81,39 @@ public class GameController : MonoBehaviour
             else {
                 int lm_terrain = 1 << LayerMask.NameToLayer("Terrain");
                 RaycastHit hit;
-                
-                // Randomly add bushes.
-                for (int i=0; i<100; i++) {
+
+                // Randomly add BUSHES.
+                for (int i = 0; i < 100; i++) {
                     float x = Random.Range(20, 250);
                     float z = Random.Range(30, 200);
-                    if (Physics.Raycast(new Vector3(x,1000,z), Vector3.down, out hit, 9999, lm_terrain)) {
-                        // Add a bush at the hit pos!
+                    if (Physics.Raycast(new Vector3(x, 1000, z), Vector3.down, out hit, 9999, lm_terrain)) {
+                        // Add one at the hit pos!
                         Vector3 pos = hit.point;
-                        Vector3 rot = new Vector3(0, Random.Range(0,360), 0);
+                        Vector3 rot = new Vector3(0, Random.Range(0, 360), 0);
                         Vector3 scale = Vector3.one;
                         Bush obj = Instantiate(ResourcesHandler.Instance.Bush).GetComponent<Bush>();
                         obj.Initialize(fieldPropsTF, pos, rot, scale, Bush.GetRandomType());
                     }
                 }
-                // Randomly add trees.
+                // Randomly add ROCKS.
+                for (int i = 0; i < 100; i++) {
+                    float x = Random.Range(20, 250);
+                    float z = Random.Range(30, 200);
+                    if (Physics.Raycast(new Vector3(x, 1000, z), Vector3.down, out hit, 9999, lm_terrain)) {
+                        // Add one at the hit pos!
+                        Vector3 pos = hit.point;
+                        Vector3 rot = hit.normal * 90;// + new Vector3(0, Random.Range(0, 360), 0);
+                        Vector3 scale = Vector3.one;
+                        Rock obj = Instantiate(ResourcesHandler.Instance.Rock).GetComponent<Rock>();
+                        obj.Initialize(fieldPropsTF, pos, rot, scale, Rock.GetRandomType());
+                    }
+                }
+                // Randomly add TREES.
                 for (int i=0; i<50; i++) {
                     float x = Random.Range(20, 250);
                     float z = Random.Range(30, 200);
                     if (Physics.Raycast(new Vector3(x,1000,z), Vector3.down, out hit, 9999, lm_terrain)) {
-                        // Add a bush at the hit pos!
+                        // Add one at the hit pos!
                         Vector3 pos = hit.point;
                         Vector3 rot = new Vector3(0, Random.Range(0,360), 0);
                         Vector3 scale = Vector3.one * Random.Range(0.4f, 1.2f);
@@ -120,6 +141,10 @@ public class GameController : MonoBehaviour
 
 
 
+    //public void SpawnResources(
+
+
+
 
     // ----------------------------------------------------------------
     //  Update
@@ -139,10 +164,10 @@ public class GameController : MonoBehaviour
 
 
         // DEBUG
-        if (Input.GetKeyDown(KeyCode.T)) {
-            //dm.PlayerInventory.CollectStick();
-            weatherController.CurrTime += 10;
-        }
+        if (Input.GetKeyDown(KeyCode.T)) { weatherController.CurrTime -= 10; }
+        if (Input.GetKeyDown(KeyCode.Y)) { weatherController.CurrTime += 10; }
+        if (Input.GetKeyDown(KeyCode.U)) { dm.PlayerInventory.ChangeSticks(5); }
+        if (Input.GetKeyDown(KeyCode.I)) { dm.PlayerInventory.ChangeStones(5); }
 
 
         // Reload scene

@@ -8,6 +8,7 @@ public class GameUI : MonoBehaviour
     // Components
     [SerializeField] TextMeshProUGUI t_countdown;
     [SerializeField] TextMeshProUGUI t_numSticks;
+    [SerializeField] TextMeshProUGUI t_numStones;
     // References
     [SerializeField] private WeatherController weatherController;
 
@@ -27,7 +28,7 @@ public class GameUI : MonoBehaviour
     //  Start / Destroy
     // ----------------------------------------------------------------
     private void Start() {
-        UpdateTexts();
+        UpdateInventoryTexts();
 
         // Add event listeners!
         EventBus.Instance.PlayerInventoryChangedEvent += OnPlayerInventoryChanged;
@@ -51,15 +52,16 @@ public class GameUI : MonoBehaviour
     //  Events
     // ----------------------------------------------------------------
     private void OnPlayerInventoryChanged() {
-        UpdateTexts();
+        UpdateInventoryTexts();
     }
 
 
     // ----------------------------------------------------------------
     //  Doers
     // ----------------------------------------------------------------
-    private void UpdateTexts() {
+    private void UpdateInventoryTexts() {
         t_numSticks.text = "sticks: " + dm.PlayerInventory.NumSticks;
+        t_numStones.text = "stones: " + dm.PlayerInventory.NumStones;
     }
 
 

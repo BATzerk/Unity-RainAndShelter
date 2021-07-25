@@ -18,6 +18,9 @@ public class WeatherController : MonoBehaviour
     public WeatherState CurrState { get; private set; }
     public WeatherState NextState { get; private set; }
 
+    // Getters
+    public bool IsRaining { get { return CurrState == WeatherState.Raining; } }
+
 
     // ----------------------------------------------------------------
     //  Save / Load
@@ -69,7 +72,7 @@ public class WeatherController : MonoBehaviour
         switch (CurrState) {
             case WeatherState.Sunny:
                 SetCurrState(WeatherState.Raining);
-                TimeWhenNextWeather = CurrTime + 2 * 60;
+                TimeWhenNextWeather = CurrTime + 3 * 60;
                 break;
 
             case WeatherState.Raining:

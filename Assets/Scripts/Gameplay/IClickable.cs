@@ -6,5 +6,6 @@ public interface IClickable {
     bool IsClickable();
     void OnHoverOver();
     void OnHoverOut();
-    void OnClickMe();
+    void OnLClickMe(Player player);
+    void OnRClickMe(Player player);
 }
