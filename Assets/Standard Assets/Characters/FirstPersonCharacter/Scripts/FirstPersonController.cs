@@ -12,10 +12,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
     public class FirstPersonController : MonoBehaviour
     {
         [SerializeField] private bool m_IsWalking;
-        [SerializeField] private float m_WalkSpeed;
-        [SerializeField] private float m_RunSpeed;
+        private float m_WalkSpeed;
+        private float m_RunSpeed;
+        private float m_JumpSpeed;
         [SerializeField] [Range(0f, 1f)] private float m_RunstepLenghten;
-        [SerializeField] private float m_JumpSpeed;
         [SerializeField] private float m_StickToGroundForce;
         [SerializeField] private float m_GravityMultiplier;
         [SerializeField] private MouseLook m_MouseLook;
@@ -44,6 +44,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private AudioSource m_AudioSource;
 
         public MouseLook MouseLook { get { return m_MouseLook; } }
+
+        public void SetWalkRunJumpSpeeds(float walk, float run, float jump) {
+            m_WalkSpeed = walk;
+            m_RunSpeed = run;
+            m_JumpSpeed = jump;
+        }
 
         // Use this for initialization
         private void Awake()

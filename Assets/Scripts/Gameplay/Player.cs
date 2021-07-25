@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
     private RaycastHit hit;
     public bool IsInRain { get; private set; }
     public bool IsUnderShelter { get; private set; }
+    public bool IsDebugWarpSpeed;
     // References
     [SerializeField] private WeatherController weatherController;
 
@@ -38,6 +39,15 @@ public class Player : MonoBehaviour {
         // Update IsUnderShelter!
         IsUnderShelter = Physics.Raycast(transform.position, Vector3.up, out hit, 9999);
         IsInRain = weatherController.IsRaining && !IsUnderShelter;
+
+        // Update charController speed!
+        if (IsDebugWarpSpeed) {
+            myFPC.SetWalkRunJumpSpeeds(100, 100, 20);
+        }
+        else {
+            if (IsInRain) myFPC.SetWalkRunJumpSpeeds(3.5f, 4f, 5f);
+            else myFPC.SetWalkRunJumpSpeeds(5, 6, 7);
+        }
 
         //if (IsInRain != pIsInRain) {
         //    EventBus.Instance.OnPlayerIsInRainChanged();
