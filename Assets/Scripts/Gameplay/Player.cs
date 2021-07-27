@@ -79,8 +79,16 @@ public class Player : MonoBehaviour {
         //bool pIsInRain = IsInRain;
 
         // Update IsUnderShelter!
-        IsUnderShelter = Physics.Raycast(transform.position, Vector3.up, out hit, 9999);
-        IsInRain = weatherController.IsRaining && !IsUnderShelter;
+        if (Physics.Raycast(transform.position, Vector3.up, out hit, 9999)) {
+            GameObject go = hit.transform.gameObject;
+            IsInRain = go.tag == Tags.RainingSky;
+            IsUnderShelter = !IsInRain && hit.distance < 100; // HARDCODED max shelter distance.
+        }
+        else {
+            IsInRain = false;
+            IsUnderShelter = false;
+
+        }
 
         // Update charController speed!
         if (IsDebugWarpSpeed) {

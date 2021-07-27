@@ -59,7 +59,6 @@ public class RainMaker : MonoBehaviour {
         ps_rainDrops.gameObject.transform.position = tf_mainCamera.position + new Vector3(0, 30, 0);
         GameUtils.SetParticleSystemEmissionRate(ps_rainDrops, Mathf.Lerp(0, 2000, RainVolume));
 
-
         if (RainVolume > 0.5f) // TEMP BOOLEAN on/off with the fog.
         {
             // Mist Near

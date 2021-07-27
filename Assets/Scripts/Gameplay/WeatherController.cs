@@ -10,6 +10,7 @@ public enum WeatherState : int {
 public class WeatherController : MonoBehaviour
 {
     // References
+    [SerializeField] private Collider c_rainingSky;
     [SerializeField] private GameController gameController;
     [SerializeField] private RainMaker rainMaker;
     [SerializeField] private Material m_skyClear;
@@ -76,11 +77,13 @@ public class WeatherController : MonoBehaviour
                 NextState = WeatherState.Raining;
                 rainMaker.RainVolume = 0;
                 RenderSettings.skybox = m_skyClear;
+                c_rainingSky.enabled = false;
                 break;
             case WeatherState.Raining:
                 NextState = WeatherState.Sunny;
                 rainMaker.RainVolume = 0.8f;
                 RenderSettings.skybox = m_skyOvercast;
+                c_rainingSky.enabled = true;
                 break;
             default:
                 Debug.LogError("Weather state not handled: " + state);
