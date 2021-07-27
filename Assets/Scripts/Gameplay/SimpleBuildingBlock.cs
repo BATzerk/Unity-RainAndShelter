@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum PlaceableType {
     Undefined,
+    Campfire,
     SimpleHut,
     StickPillar,
     StickRoof,
@@ -22,11 +23,13 @@ public struct PlaceableInfo {
 
     // Static Instances
     public static PlaceableInfo Undefined = new PlaceableInfo(0, 0);
+    public static PlaceableInfo Campfire = new PlaceableInfo(5, 0);
     public static PlaceableInfo SimpleHut = new PlaceableInfo(10, 0);
     public static PlaceableInfo StickPillar = new PlaceableInfo(3, 0);
     public static PlaceableInfo StickRoof = new PlaceableInfo(8, 0);
     public static PlaceableInfo GetInfoFromType(PlaceableType type) {
         switch (type) {
+            case PlaceableType.Campfire: return Campfire;
             case PlaceableType.SimpleHut: return SimpleHut;
             case PlaceableType.StickPillar: return StickPillar;
             case PlaceableType.StickRoof: return StickRoof;
@@ -43,23 +46,19 @@ public struct PlaceableInfo {
 }
 
 
-public class Placeable : MonoBehaviour, IClickable
+public class SimpleBuildingBlock : MonoBehaviour, IClickable
 {
     // Statics
     const float NudgeDist = 0.2f;
-    public static PlaceableType[] AvailableTypes = { PlaceableType.StickPillar, PlaceableType.StickRoof };
+    public static PlaceableType[] AvailableTypes = { PlaceableType.SimpleHut, PlaceableType.Campfire };//, PlaceableType.StickRoof
     // Components
     [SerializeField] private Rigidbody myRigidbody;
     GameObject bodyGO; // added/changed dynamically.
     // Properties
-    [SerializeField] private bool isGhost;
     public PlaceableType MyType { get; private set; }
     private int numTimesClicked;
     private Coroutine c_resetNumTimesClicked;
     // References
-    [SerializeField] private Material m_ghost_placeable; // a-ok to place.
-    [SerializeField] private Material m_ghost_cantAfford;
-    //[SerializeField] private Material m_ghost_;
     [SerializeField] private Material m_grayDark;
     [SerializeField] private Material m_simpleHut;
     private GameController gameController;
@@ -78,7 +77,7 @@ public class Placeable : MonoBehaviour, IClickable
     // ----------------------------------------------------------------
     //  Initialize
     // ----------------------------------------------------------------
-    public void Initialize(GameController _gameController, PlaceableData data) {
+    public void Initialize(GameController _gameController, SimpleBuildingBlockData data) {
         Initialize(_gameController, data.pos, data.rot, data.scale, data.myType);
     }
     public void Initialize(GameController _gameController, Transform tf, PlaceableType _myType) {
@@ -100,37 +99,16 @@ public class Placeable : MonoBehaviour, IClickable
     // ----------------------------------------------------------------
     public void SetMyType(PlaceableType _type) {
         this.MyType = _type;
-
-        // Set isKinematic
-        if (isGhost) { // Ghosts don't fall.
-            myRigidbody.isKinematic = true;
-        }
-        else {
-            myRigidbody.isKinematic =
-                MyType == PlaceableType.StickPillar
-             || MyType == PlaceableType.SimpleHut
-            ;
-        }
+        myRigidbody.isKinematic = !(
+            MyType == PlaceableType.StickRoof
+        );
 
         // Destroy body.
         if (bodyGO != null) { Destroy(bodyGO); }
         bodyGO = Instantiate(ResourcesHandler.Instance.GetPlaceableBody(this.MyType));
         GameUtils.ParentAndReset(bodyGO, this.transform);
 
-        if (isGhost) {
-            SetMaterial(m_ghost_placeable);
-            // Make all colliders triggers. Ghosts don't push things.
-            foreach (Collider col in bodyGO.GetComponentsInChildren<Collider>()) {
-                col.isTrigger = true;
-            }
-        }
-        else {
-            SetMaterial(m_simpleHut);
-        }
-    }
-    public void SetCanAfford(bool canAfford) {
-        if (!isGhost) { Debug.LogError("Whoa! We're setting CanAfford for a placeable that's NOT a ghost."); }
-        SetMaterial(canAfford ? m_ghost_placeable : m_ghost_cantAfford);
+        //SetMaterial(m_simpleHut);
     }
 
 
@@ -138,7 +116,8 @@ public class Placeable : MonoBehaviour, IClickable
     // ----------------------------------------------------------------
     //  Clicking
     // ----------------------------------------------------------------
-    public bool IsClickable() { return !isGhost; }
+    public bool IsClickable() { return true; }
+    public CursorType CurrCursorForMe() { return CursorType.Punch; }
     public void OnHoverOver() {
         // todo: Somethin'.
     }

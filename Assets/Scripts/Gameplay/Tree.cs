@@ -47,6 +47,7 @@ public class Tree : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     //  Events
     // ----------------------------------------------------------------
+    public CursorType CurrCursorForMe() { return CursorType.Circle; }
     public void OnRClickMe(Player player) { }
     public void OnLClickMe(Player player) {
         numTimesClicked++;

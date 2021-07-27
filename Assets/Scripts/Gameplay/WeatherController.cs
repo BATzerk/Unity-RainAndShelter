@@ -12,9 +12,12 @@ public class WeatherController : MonoBehaviour
     // References
     [SerializeField] private GameController gameController;
     [SerializeField] private RainMaker rainMaker;
+    [SerializeField] private Material m_skyClear;
+    [SerializeField] private Material m_skyOvercast;
     // Properties
     public float CurrTime;// { get; private set; }
     public float TimeWhenNextWeather { get; private set; }
+    public float TimeUntilNextWeather { get; private set; }
     public WeatherState CurrState { get; private set; }
     public WeatherState NextState { get; private set; }
 
@@ -42,11 +45,25 @@ public class WeatherController : MonoBehaviour
     // ----------------------------------------------------------------
     private void Update() {
         UpdateTimers();
+
+        // Brute-force every-frame updating the skybox.
+        switch (CurrState) {
+            case WeatherState.Sunny:
+                if (TimeUntilNextWeather > 40f)
+                    RenderSettings.skybox = m_skyClear;
+                else
+                    RenderSettings.skybox = m_skyOvercast;
+                break;
+            case WeatherState.Raining:
+                RenderSettings.skybox = m_skyOvercast;
+                break;
+        }
     }
 
     private void UpdateTimers() {
         CurrTime += Time.deltaTime;
-        if (CurrTime >= TimeWhenNextWeather) {
+        TimeUntilNextWeather = TimeWhenNextWeather - CurrTime;
+        if (TimeUntilNextWeather <= 0) { // time to switch?!
             CycleToNextWeatherState();
         }
     }
@@ -58,10 +75,12 @@ public class WeatherController : MonoBehaviour
             case WeatherState.Sunny:
                 NextState = WeatherState.Raining;
                 rainMaker.RainVolume = 0;
+                RenderSettings.skybox = m_skyClear;
                 break;
             case WeatherState.Raining:
                 NextState = WeatherState.Sunny;
                 rainMaker.RainVolume = 0.8f;
+                RenderSettings.skybox = m_skyOvercast;
                 break;
             default:
                 Debug.LogError("Weather state not handled: " + state);

@@ -1,17 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameUI : MonoBehaviour
 {
     // Components
+    [SerializeField] Image i_cursor;
     [SerializeField] TextMeshProUGUI t_countdown;
     [SerializeField] TextMeshProUGUI t_numSticks;
     [SerializeField] TextMeshProUGUI t_numStones;
     // References
     [SerializeField] private GameController gameController;
     [SerializeField] private WeatherController weatherController;
+    [SerializeField] private Sprite s_cursorNeutral;
+    [SerializeField] private Sprite s_cursorCircle;
+    [SerializeField] private Sprite s_cursorHand;
+    [SerializeField] private Sprite s_cursorPunch;
 
 
     // Getters
@@ -21,6 +27,15 @@ public class GameUI : MonoBehaviour
             case WeatherState.Raining: return "storm";
             case WeatherState.Sunny: return "sun";
             default: return "undefined";
+        }
+    }
+    private Sprite GetCursorSpriteFromType(CursorType ct) {
+        switch (ct) {
+            case CursorType.Neutral: return s_cursorNeutral;
+            case CursorType.Circle: return s_cursorCircle;
+            case CursorType.Hand: return s_cursorHand;
+            case CursorType.Punch: return s_cursorPunch;
+            default: Debug.LogError("No cursor sprite for type: " + ct); return null;
         }
     }
 
@@ -60,6 +75,9 @@ public class GameUI : MonoBehaviour
     // ----------------------------------------------------------------
     //  Doers
     // ----------------------------------------------------------------
+    public void SetCursorType(CursorType ct) {
+        i_cursor.sprite = GetCursorSpriteFromType(ct);
+    }
     private void UpdateInventoryTexts() {
         PlayerInventory pi = gameController.Player.Inventory;
         t_numSticks.text = "sticks: " + pi.NumSticks;

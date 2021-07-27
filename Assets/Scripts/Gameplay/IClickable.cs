@@ -8,4 +8,5 @@ public interface IClickable {
     void OnHoverOut();
     void OnLClickMe(Player player);
     void OnRClickMe(Player player);
+    CursorType CurrCursorForMe();
 }

@@ -54,6 +54,7 @@ public class Rock : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     //  Events
     // ----------------------------------------------------------------
+    public CursorType CurrCursorForMe() { return CursorType.Punch; }
     public void OnRClickMe(Player player) { }
     public void OnLClickMe(Player player) {
         // Shake it, baby!

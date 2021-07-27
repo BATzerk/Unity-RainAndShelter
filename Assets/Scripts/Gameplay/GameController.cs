@@ -52,12 +52,16 @@ public class GameController : MonoBehaviour
                 string saveStr = SaveStorage.GetString(saveKey);
                 FieldPropsData fieldPropsData = JsonUtility.FromJson<FieldPropsData>(saveStr);
 
-                foreach (PlaceableData data in fieldPropsData.placeableDatas) {
-                    Placeable newObj = Instantiate(ResourcesHandler.Instance.Placeable).GetComponent<Placeable>();
+                foreach (SimpleBuildingBlockData data in fieldPropsData.simpleBuildingBlockDatas) {
+                    SimpleBuildingBlock newObj = Instantiate(ResourcesHandler.Instance.SimpleBuildingBlock).GetComponent<SimpleBuildingBlock>();
                     newObj.Initialize(this, data);
                 }
                 foreach (BushData data in fieldPropsData.bushDatas) {
                     Bush newObj = Instantiate(ResourcesHandler.Instance.Bush).GetComponent<Bush>();
+                    newObj.Initialize(fieldPropsTF, data);
+                }
+                foreach (CampfireData data in fieldPropsData.campfireDatas) {
+                    Campfire newObj = Instantiate(ResourcesHandler.Instance.Campfire).GetComponent<Campfire>();
                     newObj.Initialize(fieldPropsTF, data);
                 }
                 foreach (TreeData data in fieldPropsData.treeDatas) {
@@ -81,11 +85,12 @@ public class GameController : MonoBehaviour
             else {
                 int lm_terrain = 1 << LayerMask.NameToLayer("Terrain");
                 RaycastHit hit;
+                Rect tb = new Rect(20,30, 330,330); // terrain bounds.
 
                 // Randomly add BUSHES.
                 for (int i = 0; i < 1000; i++) {
-                    float x = Random.Range(20, 900);
-                    float z = Random.Range(30, 900);
+                    float x = Random.Range(tb.xMin, tb.xMax);
+                    float z = Random.Range(tb.yMin, tb.yMax);
                     if (Physics.Raycast(new Vector3(x, 1000, z), Vector3.down, out hit, 9999, lm_terrain)) {
                         // Add one at the hit pos!
                         Vector3 pos = hit.point;
@@ -97,8 +102,8 @@ public class GameController : MonoBehaviour
                 }
                 // Randomly add ROCKS.
                 for (int i = 0; i < 500; i++) {
-                    float x = Random.Range(20, 900);
-                    float z = Random.Range(30, 900);
+                    float x = Random.Range(tb.xMin, tb.xMax);
+                    float z = Random.Range(tb.yMin, tb.yMax);
                     if (Physics.Raycast(new Vector3(x, 1000, z), Vector3.down, out hit, 9999, lm_terrain)) {
                         // Add one at the hit pos!
                         Vector3 pos = hit.point;
@@ -110,8 +115,8 @@ public class GameController : MonoBehaviour
                 }
                 // Randomly add TREES.
                 for (int i=0; i<50; i++) {
-                    float x = Random.Range(20, 900);
-                    float z = Random.Range(30, 900);
+                    float x = Random.Range(tb.xMin, tb.xMax);
+                    float z = Random.Range(tb.yMin, tb.yMax);
                     if (Physics.Raycast(new Vector3(x,1000,z), Vector3.down, out hit, 9999, lm_terrain)) {
                         // Add one at the hit pos!
                         Vector3 pos = hit.point;

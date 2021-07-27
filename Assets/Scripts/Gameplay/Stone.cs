@@ -31,6 +31,7 @@ public class Stone : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     //  Events
     // ----------------------------------------------------------------
+    public CursorType CurrCursorForMe() { return CursorType.Hand; }
     public void OnRClickMe(Player player) { }
     public void OnLClickMe(Player player) {
         player.Inventory.ChangeStones(1);

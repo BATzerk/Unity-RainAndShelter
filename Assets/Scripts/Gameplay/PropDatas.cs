@@ -6,8 +6,9 @@ using UnityEngine;
 [Serializable]
 public class FieldPropsData {
     // Properties
-    public List<PlaceableData> placeableDatas = new List<PlaceableData>();
+    public List<SimpleBuildingBlockData> simpleBuildingBlockDatas = new List<SimpleBuildingBlockData>();
     public List<BushData> bushDatas = new List<BushData>();
+    public List<CampfireData> campfireDatas = new List<CampfireData>();
     public List<TreeData> treeDatas = new List<TreeData>();
     public List<RockData> rockDatas = new List<RockData>();
     public List<StoneData> stoneDatas = new List<StoneData>();
@@ -15,16 +16,20 @@ public class FieldPropsData {
 
     // Creation
     public void PopulateFromWorld(Transform containerTF) {
-        placeableDatas = new List<PlaceableData>();
+        simpleBuildingBlockDatas = new List<SimpleBuildingBlockData>();
         bushDatas = new List<BushData>();
+        campfireDatas = new List<CampfireData>();
         treeDatas = new List<TreeData>();
         stickDatas = new List<StickData>();
 
-        foreach (Placeable obj in containerTF.GetComponentsInChildren<Placeable>()) {
-            placeableDatas.Add(new PlaceableData(obj));
+        foreach (SimpleBuildingBlock obj in containerTF.GetComponentsInChildren<SimpleBuildingBlock>()) {
+            simpleBuildingBlockDatas.Add(new SimpleBuildingBlockData(obj));
         }
         foreach (Bush obj in containerTF.GetComponentsInChildren<Bush>()) {
             bushDatas.Add(new BushData(obj));
+        }
+        foreach (Campfire obj in containerTF.GetComponentsInChildren<Campfire>()) {
+            campfireDatas.Add(new CampfireData(obj));
         }
         foreach (Tree obj in containerTF.GetComponentsInChildren<Tree>()) {
             treeDatas.Add(new TreeData(obj));
@@ -46,14 +51,19 @@ public class PropData {
     public Vector3 pos;
     public Vector3 rot; // euler angles
     public Vector3 scale;
+    protected void SetTFValues(GameObject go) {
+        pos = go.transform.position;
+        rot = go.transform.eulerAngles;
+        scale = go.transform.lossyScale;
+    }
 }
 
 
 
 [Serializable]
-public class PlaceableData : PropData {
+public class SimpleBuildingBlockData : PropData {
     public PlaceableType myType;
-    public PlaceableData(Placeable myProp) {
+    public SimpleBuildingBlockData(SimpleBuildingBlock myProp) {
         myType = myProp.MyType;
         pos = myProp.transform.position;
         rot = myProp.transform.eulerAngles;
@@ -61,47 +71,49 @@ public class PlaceableData : PropData {
     }
 }
 [Serializable]
+public class CampfireData : PropData {
+    public bool isLit;
+    public CampfireData(Campfire myProp) {
+        SetTFValues(myProp.gameObject);
+        isLit = myProp.IsLit;
+    }
+}
+
+
+[Serializable]
 public class BushData : PropData {
     public BushType bushType;
     public BushData(Bush myProp) {
+        SetTFValues(myProp.gameObject);
         bushType = myProp.MyType;
-        pos = myProp.transform.position;
-        rot = myProp.transform.eulerAngles;
-        scale = myProp.transform.lossyScale;
     }
 }
 [Serializable]
 public class RockData : PropData {
     public RockType myType;
     public RockData(Rock myProp) {
+        SetTFValues(myProp.gameObject);
         myType = myProp.MyType;
-        pos = myProp.transform.position;
-        rot = myProp.transform.eulerAngles;
-        scale = myProp.transform.lossyScale;
     }
 }
 [Serializable]
 public class StoneData : PropData {
     public StoneData(Stone myProp) {
-        pos = myProp.transform.position;
-        rot = myProp.transform.eulerAngles;
+        SetTFValues(myProp.gameObject);
     }
 }
 [Serializable]
 public class StickData : PropData {
-    public StickData(Stick myStick) {
-        pos = myStick.transform.position;
-        rot = myStick.transform.eulerAngles;
+    public StickData(Stick myProp) {
+        SetTFValues(myProp.gameObject);
     }
 }
 [Serializable]
 public class TreeData : PropData {
     public TreeType treeType;
     public TreeData(Tree myProp) {
+        SetTFValues(myProp.gameObject);
         treeType = myProp.MyType;
-        pos = myProp.transform.position;
-        rot = myProp.transform.eulerAngles;
-        scale = myProp.transform.lossyScale;
     }
 }
 

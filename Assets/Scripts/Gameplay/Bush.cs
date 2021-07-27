@@ -55,6 +55,7 @@ public class Bush : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     //  Events
     // ----------------------------------------------------------------
+    public CursorType CurrCursorForMe() { return CursorType.Punch; }
     public void OnRClickMe(Player player) { }
     public void OnLClickMe(Player player) {
         // Maybe maybe spawn a stick!

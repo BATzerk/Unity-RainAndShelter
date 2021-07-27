@@ -9,16 +9,19 @@ public class ResourcesHandler : MonoBehaviour {
     [SerializeField] public GameObject ImageLinesJoint;
 
     [Header("RainAndShelter")]
-    [SerializeField] public GameObject Placeable;
     [SerializeField] public GameObject Bush;
+    [SerializeField] public GameObject Campfire;
     [SerializeField] public GameObject Tree;
     [SerializeField] public GameObject Rock;
     [SerializeField] public GameObject Stone;
     [SerializeField] public GameObject Stick;
+    [SerializeField] public GameObject SimpleBuildingBlock;
     [SerializeField] private GameObject[] bushBodies; // the sub-prefabs.
-    [SerializeField] private GameObject pb_simpleHut;
-    [SerializeField] private GameObject pb_stickPillar;
-    [SerializeField] private GameObject pb_stickRoof;
+    // Placeables
+    [SerializeField] private GameObject campfireBody;
+    [SerializeField] private GameObject simpleHutBody;
+    [SerializeField] private GameObject stickPillarBody;
+    [SerializeField] private GameObject stickRoofBody;
 
 
 
@@ -35,10 +38,11 @@ public class ResourcesHandler : MonoBehaviour {
     }
     public GameObject GetPlaceableBody(PlaceableType type) {
         switch (type) {
-            case PlaceableType.SimpleHut: return pb_simpleHut;
-            case PlaceableType.StickPillar: return pb_stickPillar;
-            case PlaceableType.StickRoof: return pb_stickRoof;
-            default: Debug.LogError("Oops, no PlaceableBody in ResourcesHandler for this PlaceableType: " + type); return pb_simpleHut;
+            case PlaceableType.Campfire: return campfireBody;
+            case PlaceableType.SimpleHut: return simpleHutBody;
+            case PlaceableType.StickPillar: return stickPillarBody;
+            case PlaceableType.StickRoof: return stickRoofBody;
+            default: Debug.LogError("Oops, no PlaceableBody in ResourcesHandler for this PlaceableType: " + type); return simpleHutBody;
         }
     }
     

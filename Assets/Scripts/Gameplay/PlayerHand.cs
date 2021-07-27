@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CursorType {
+    Undefined,
+    Neutral, Circle, Hand, Punch
+    //Nudge, Grab, Grabbing
+}
+
 public class PlayerHand : MonoBehaviour {
     // Constants
     private float ReachRange = 4; // how far from the camera before it's too far to touch.
@@ -10,7 +16,7 @@ public class PlayerHand : MonoBehaviour {
     [SerializeField] Player player;
     [SerializeField] Camera myCamera;
     [SerializeField] Transform cameraTF;
-    [SerializeField] Placeable placeableGhost;
+    [SerializeField] PlaceableGhost placeableGhost;
     // Properties
     private int lm_terrain;
     private bool isPlacing;
@@ -20,22 +26,11 @@ public class PlayerHand : MonoBehaviour {
     private RaycastHit hitInfo;
     // References
     [SerializeField] GameController gameController;
+    [SerializeField] GameUI gameUI;
     private IClickable clickableOver; // the object we're directly looking at.
 
     // Getters
     private PlayerInventory pi { get { return player.Inventory; } }
-
-    //private bool CanAffordPlaceable(int typeIndex) { return CanAffordPlaceable(Placeable.AvailableTypes[typeIndex]); }
-    //private bool CanAffordPlaceable(PlaceableType type) {
-    //    return .
-    //    PlayerInventory pi = GameManagers.Instance.DataManager.PlayerInventory;
-    //    switch (type) {
-    //        case PlaceableType.SimpleHut: return pi.NumSticks >= 20;
-    //        case PlaceableType.StickPillar: return pi.NumSticks >= 3;
-    //        case PlaceableType.StickRoof: return pi.NumSticks >= 8;
-    //        default: Debug.LogError("Whoa! PlaceableType not defined: " + type); return true;
-    //    }
-    //}
 
 
     // ----------------------------------------------------------------
@@ -61,19 +56,20 @@ public class PlayerHand : MonoBehaviour {
     // ----------------------------------------------------------------
     private void SetCurrPlaceableTypeIndex(int val) {
         currPlaceableTypeIndex = val;
-        PlaceableType type = Placeable.AvailableTypes[currPlaceableTypeIndex];
+        PlaceableType type = SimpleBuildingBlock.AvailableTypes[currPlaceableTypeIndex];
         currPlaceableInfo = PlaceableInfo.GetInfoFromType(type);
         placeableGhost.SetMyType(type);
         UpdatePlaceableCanAffordVisuals();
         isPlaceableGroundlocked =
-            type == PlaceableType.StickPillar
+            type == PlaceableType.Campfire
+         || type == PlaceableType.StickPillar
          || type == PlaceableType.SimpleHut
         ;
     }
     private void ChangeTypePlacing(int delta) {
         int newIndex = currPlaceableTypeIndex + delta;
-        if (newIndex < 0) newIndex += Placeable.AvailableTypes.Length;
-        if (newIndex >= Placeable.AvailableTypes.Length) newIndex -= Placeable.AvailableTypes.Length;
+        if (newIndex < 0) newIndex += SimpleBuildingBlock.AvailableTypes.Length;
+        if (newIndex >= SimpleBuildingBlock.AvailableTypes.Length) newIndex -= SimpleBuildingBlock.AvailableTypes.Length;
         SetCurrPlaceableTypeIndex(newIndex);
     }
     private void SetIsPlacing(bool _isPlacing) {
@@ -82,9 +78,20 @@ public class PlayerHand : MonoBehaviour {
     }
 
     private void PlaceNewObjectAtGhost() {
-        // Place it.
-        Placeable newObj = Instantiate(ResourcesHandler.Instance.Placeable).GetComponent<Placeable>();
-        newObj.Initialize(gameController, placeableGhost.transform, placeableGhost.MyType);
+        // Place it!
+        PlaceableType type = placeableGhost.MyType;
+        switch (type) {
+            case PlaceableType.Campfire:
+                Campfire campfire = Instantiate(ResourcesHandler.Instance.Campfire).GetComponent<Campfire>();
+                campfire.Initialize(gameController.FieldPropsTF, placeableGhost.transform, true);
+                break;
+            case PlaceableType.SimpleHut:
+            case PlaceableType.StickPillar:
+            case PlaceableType.StickRoof:
+                SimpleBuildingBlock buildingBlock = Instantiate(ResourcesHandler.Instance.SimpleBuildingBlock).GetComponent<SimpleBuildingBlock>();
+                buildingBlock.Initialize(gameController, placeableGhost.transform, placeableGhost.MyType);
+                break;
+        }
         // Consume its cost.
         pi.PayForCost(currPlaceableInfo);
 
@@ -111,6 +118,8 @@ public class PlayerHand : MonoBehaviour {
     //  Update
     // ----------------------------------------------------------------
     void Update() {
+        CursorType ct = CursorType.Neutral; // ...Until I say otherwise.
+
         // Update clickableOver!
         {
             IClickable newClickableOver = null;
@@ -128,8 +137,11 @@ public class PlayerHand : MonoBehaviour {
                 clickableOver = newClickableOver; // update the ref.
             }
 
-            // Click?!?
+            // A clickable clickableOver!
             if (clickableOver != null && clickableOver.IsClickable()) {
+                // Cursor.
+                ct = clickableOver.CurrCursorForMe();
+                // Click?!?
                 if (Input.GetMouseButtonDown(0)) {
                     clickableOver.OnLClickMe(player);
                 }
@@ -175,6 +187,9 @@ public class PlayerHand : MonoBehaviour {
                 }
             }
         }
+
+        // Set cursor image!
+        gameUI.SetCursorType(ct);
     }
 
 
