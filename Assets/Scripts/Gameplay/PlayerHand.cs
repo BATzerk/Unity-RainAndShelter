@@ -23,7 +23,7 @@ public class PlayerHand : MonoBehaviour {
     private IClickable clickableOver; // the object we're directly looking at.
 
     // Getters
-    private PlayerInventory pi { get { return GameManagers.Instance.DataManager.PlayerInventory; } }
+    private PlayerInventory pi { get { return player.Inventory; } }
 
     //private bool CanAffordPlaceable(int typeIndex) { return CanAffordPlaceable(Placeable.AvailableTypes[typeIndex]); }
     //private bool CanAffordPlaceable(PlaceableType type) {
@@ -86,18 +86,22 @@ public class PlayerHand : MonoBehaviour {
         Placeable newObj = Instantiate(ResourcesHandler.Instance.Placeable).GetComponent<Placeable>();
         newObj.Initialize(gameController, placeableGhost.transform, placeableGhost.MyType);
         // Consume its cost.
-        GameManagers.Instance.DataManager.PlayerInventory.PayForCost(currPlaceableInfo);
+        pi.PayForCost(currPlaceableInfo);
 
         // Stop placing.
         SetIsPlacing(false);
     }
     private void UpdatePlaceableCanAffordVisuals() {
+        if (pi == null) { return; } // Safety check for first frame.
         bool canAfford = currPlaceableInfo.CanAfford(pi);
         placeableGhost.SetCanAfford(canAfford);
     }
 
 
 
+    // ----------------------------------------------------------------
+    //  Events
+    // ----------------------------------------------------------------
     private void OnPlayerInventoryChanged() {
         UpdatePlaceableCanAffordVisuals();
     }

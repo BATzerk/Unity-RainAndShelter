@@ -10,6 +10,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI t_numSticks;
     [SerializeField] TextMeshProUGUI t_numStones;
     // References
+    [SerializeField] private GameController gameController;
     [SerializeField] private WeatherController weatherController;
 
 
@@ -60,8 +61,9 @@ public class GameUI : MonoBehaviour
     //  Doers
     // ----------------------------------------------------------------
     private void UpdateInventoryTexts() {
-        t_numSticks.text = "sticks: " + dm.PlayerInventory.NumSticks;
-        t_numStones.text = "stones: " + dm.PlayerInventory.NumStones;
+        PlayerInventory pi = gameController.Player.Inventory;
+        t_numSticks.text = "sticks: " + pi.NumSticks;
+        t_numStones.text = "stones: " + pi.NumStones;
     }
 
 

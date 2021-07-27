@@ -37,38 +37,16 @@ public class SerializedTransform {
 
 public class DataManager {
     // Properties
-    public PlayerInventory PlayerInventory { get; private set; } // loaded from saveData!
     
 
     // ----------------------------------------------------------------
     //  Initialize
     // ----------------------------------------------------------------
     public DataManager() {
-        // Load save data!
-        LoadPlayerInventory();
+
     }
     
 
-    // ----------------------------------------------------------------
-    //  Save / Load
-    // ----------------------------------------------------------------
-    public void LoadPlayerInventory() {
-        string saveKey = SaveKeys.PlayerInventory;
-        // We HAVE save for this! Load it!
-        if (SaveStorage.HasKey(saveKey)) {
-            string jsonString = SaveStorage.GetString(saveKey);
-            PlayerInventory = JsonUtility.FromJson<PlayerInventory>(jsonString);
-        }
-        // We DON'T have a save for this. Make a new UserData.
-        else {
-            PlayerInventory = new PlayerInventory();
-        }
-    }
-    public void SavePlayerInventory() {
-        string saveKey = SaveKeys.PlayerInventory;
-        string jsonString = JsonUtility.ToJson(PlayerInventory);
-        SaveStorage.SetString(saveKey, jsonString);
-    }
     
     
     // ----------------------------------------------------------------
@@ -78,7 +56,7 @@ public class DataManager {
         // NOOK IT
         SaveStorage.DeleteAll();
         Debug.Log("All SaveStorage CLEARED!");
-        LoadPlayerInventory(); // Reload PlayerInventory!
+        //LoadPlayerInventory(); // Reload PlayerInventory!
     }
 
 

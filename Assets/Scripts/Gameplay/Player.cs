@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
     [SerializeField] private UnityStandardAssets.Characters.FirstPerson.FirstPersonController myFPC;
     [SerializeField] private CharacterController charController;
     // Properties
+    public PlayerInventory Inventory { get; private set; } // saved/loaded.
     private RaycastHit hit;
     public bool IsInRain { get; private set; }
     public bool IsUnderShelter { get; private set; }
@@ -25,6 +26,47 @@ public class Player : MonoBehaviour {
     public float GetRotY() { return myFPC.transform.localEulerAngles.y; }
     public void SetRotY(float val) {
         myFPC.MouseLook.SetRotY(val);
+    }
+
+
+    // ----------------------------------------------------------------
+    //  Load / Save
+    // ----------------------------------------------------------------
+    public void InitializeFromSave() {
+        // Transform
+        {
+            Vector3 _pos = SaveStorage.GetVector3(SaveKeys.PlayerPos(), GetPos()); // default to the player's current (aka default, fresh-save) pos
+            float rotY = SaveStorage.GetFloat(SaveKeys.PlayerRotY());
+            SetPos(new Vector3(_pos.x, _pos.y, _pos.z));
+            SetRotY(rotY);
+        }
+        // Inventory
+        {
+            string saveKey = SaveKeys.PlayerInventory();
+            // We HAVE save for this! Load it!
+            if (SaveStorage.HasKey(saveKey)) {
+                string jsonString = SaveStorage.GetString(saveKey);
+                Inventory = JsonUtility.FromJson<PlayerInventory>(jsonString);
+            }
+            // We DON'T have a save for this. Make a new UserData.
+            else {
+                Inventory = new PlayerInventory();
+            }
+        }
+    }
+
+    public void SavePropertiesToStorage() {
+        // Transform
+        {
+            SaveStorage.SetVector3(SaveKeys.PlayerPos(), GetPos());
+            SaveStorage.SetFloat(SaveKeys.PlayerRotY(), GetRotY());
+        }
+        // Inventory.
+        {
+            string saveKey = SaveKeys.PlayerInventory();
+            string jsonString = JsonUtility.ToJson(Inventory);
+            SaveStorage.SetString(saveKey, jsonString);
+        }
     }
 
 

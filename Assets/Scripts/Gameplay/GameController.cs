@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    // Properties
+    [SerializeField] private int debug_startingLevelIndex;
     // References
     [SerializeField] Player player;
     [SerializeField] Transform fieldPropsTF;
@@ -12,6 +14,7 @@ public class GameController : MonoBehaviour
 
     // Getters
     private DataManager dm { get { return GameManagers.Instance.DataManager; } }
+    public Player Player { get { return player; } }
     public Transform FieldPropsTF { get { return fieldPropsTF; } }
 
 
@@ -20,7 +23,7 @@ public class GameController : MonoBehaviour
     //  Start
     // ----------------------------------------------------------------
     void Start() {
-        ReloadFromSave();
+        ReloadFromSave(debug_startingLevelIndex);
     }
     private void DestroyFieldProps() {
         for (int i=fieldPropsTF.childCount-1; i>=0; i--) {
@@ -33,19 +36,16 @@ public class GameController : MonoBehaviour
     // ----------------------------------------------------------------
     //  Save / Load
     // ----------------------------------------------------------------
-    private void ReloadFromSave() {
-        // Player pos/rot
-        Vector3 _pos = SaveStorage.GetVector3(SaveKeys.PlayerPos, player.GetPos()); // default to the player's current (aka default, fresh-save) pos
-        player.SetPos(new Vector3(_pos.x, _pos.y, _pos.z));
-        float rotY = SaveStorage.GetFloat(SaveKeys.PlayerRotY);
-        player.SetRotY(rotY);
-        // Player inventory
-        dm.LoadPlayerInventory();
+    private void ReloadFromSave(int _currLevelIndex) {
+        SaveKeys.SetCurrLevelIndex(_currLevelIndex);
+
+        // Player
+        player.InitializeFromSave();
         // WeatherController
-        weatherController.LoadWeatherValues();
+        weatherController.LoadValuesFromStorage();
         // FieldPropsData
         {
-            string saveKey = SaveKeys.FieldPropsData;
+            string saveKey = SaveKeys.FieldPropsData();
             // We DO have the save!
             if (SaveStorage.HasKey(saveKey)) {
                 DestroyFieldProps(); // Destroy the default stuff out there.
@@ -125,16 +125,14 @@ public class GameController : MonoBehaviour
         }
     }
     private void SaveGameState() {
-        // Player and Inventory
-        SaveStorage.SetVector3(SaveKeys.PlayerPos, player.GetPos());
-        SaveStorage.SetFloat(SaveKeys.PlayerRotY, player.GetRotY());
-        dm.SavePlayerInventory();
+        // Player
+        player.SavePropertiesToStorage();
         // WeatherController
-        weatherController.SaveWeatherValues();
+        weatherController.SaveValuesToStorage();
         // FieldPropsData
         FieldPropsData fieldPropsData = new FieldPropsData();
         fieldPropsData.PopulateFromWorld(fieldPropsTF);
-        SaveStorage.SetString(SaveKeys.FieldPropsData, JsonUtility.ToJson(fieldPropsData));
+        SaveStorage.SetString(SaveKeys.FieldPropsData(), JsonUtility.ToJson(fieldPropsData));
 
         Debug.Log("Saved game state.");
     }
@@ -167,8 +165,8 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab)) { player.IsDebugWarpSpeed = !player.IsDebugWarpSpeed; }
         if (Input.GetKeyDown(KeyCode.T)) { weatherController.CurrTime -= 10; }
         if (Input.GetKeyDown(KeyCode.Y)) { weatherController.CurrTime += 10; }
-        if (Input.GetKeyDown(KeyCode.U)) { dm.PlayerInventory.ChangeSticks(5); }
-        if (Input.GetKeyDown(KeyCode.I)) { dm.PlayerInventory.ChangeStones(5); }
+        if (Input.GetKeyDown(KeyCode.U)) { player.Inventory.ChangeSticks(5); }
+        if (Input.GetKeyDown(KeyCode.I)) { player.Inventory.ChangeStones(5); }
 
 
         // Reload scene

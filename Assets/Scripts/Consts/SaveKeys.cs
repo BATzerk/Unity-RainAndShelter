@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class SaveKeys {
+    public static int CurrLevelIndex { get; private set; }
+    public static void SetCurrLevelIndex(int val) {
+        CurrLevelIndex = val;
+    }
+    private static string cliPrefix { get { return CurrLevelIndex + "_"; } }
 
-    public const string PlayerInventory = "PlayerInventory";
-    public const string PlayerPos = "PlayerPos";
-    public const string PlayerRotY = "PlayerRotY";
-    public const string FieldPropsData = "FieldPropsData";
 
-    public const string CurrGameTime = "CurrGameTime";
-    public const string CurrWeatherState = "CurrWeatherState";
-    public const string TimeWhenNextWeather = "TimeWhenNextWeather";
+    public static string PlayerInventory() { return cliPrefix + "PlayerInventory"; }
+    public static string PlayerPos() { return cliPrefix + "PlayerPos"; }
+    public static string PlayerRotY() { return cliPrefix + "PlayerRotY"; }
+    public static string FieldPropsData() { return cliPrefix + "FieldPropsData"; }
+
+    public static string CurrGameTime() { return cliPrefix + "CurrGameTime"; }
+    public static string CurrWeatherState() { return cliPrefix + "CurrWeatherState"; }
+    public static string TimeWhenNextWeather() { return cliPrefix + "TimeWhenNextWeather"; }
 
 
 

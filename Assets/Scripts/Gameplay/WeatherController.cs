@@ -25,15 +25,15 @@ public class WeatherController : MonoBehaviour
     // ----------------------------------------------------------------
     //  Save / Load
     // ----------------------------------------------------------------
-    public void LoadWeatherValues() {
-        CurrTime = SaveStorage.GetFloat(SaveKeys.CurrGameTime, 0);
-        TimeWhenNextWeather = SaveStorage.GetFloat(SaveKeys.TimeWhenNextWeather, 3 * 60);
-        SetCurrState((WeatherState) SaveStorage.GetInt(SaveKeys.CurrWeatherState, 1));
+    public void LoadValuesFromStorage() {
+        CurrTime = SaveStorage.GetFloat(SaveKeys.CurrGameTime(), 0);
+        TimeWhenNextWeather = SaveStorage.GetFloat(SaveKeys.TimeWhenNextWeather(), 3 * 60);
+        SetCurrState((WeatherState) SaveStorage.GetInt(SaveKeys.CurrWeatherState(), 1));
     }
-    public void SaveWeatherValues() {
-        SaveStorage.SetFloat(SaveKeys.CurrGameTime, CurrTime);
-        SaveStorage.SetFloat(SaveKeys.TimeWhenNextWeather, TimeWhenNextWeather);
-        SaveStorage.SetInt(SaveKeys.CurrWeatherState, (int)CurrState);
+    public void SaveValuesToStorage() {
+        SaveStorage.SetFloat(SaveKeys.CurrGameTime(), CurrTime);
+        SaveStorage.SetFloat(SaveKeys.TimeWhenNextWeather(), TimeWhenNextWeather);
+        SaveStorage.SetInt(SaveKeys.CurrWeatherState(), (int)CurrState);
     }
 
 

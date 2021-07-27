@@ -34,7 +34,7 @@ public class Stick : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     public void OnRClickMe(Player player) { }
     public void OnLClickMe(Player player) {
-        GameManagers.Instance.DataManager.PlayerInventory.ChangeSticks(1);
+        player.Inventory.ChangeSticks(1);
         GameObject.Destroy(this.gameObject);
     }
 

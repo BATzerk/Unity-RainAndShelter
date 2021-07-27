@@ -33,7 +33,7 @@ public class Stone : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     public void OnRClickMe(Player player) { }
     public void OnLClickMe(Player player) {
-        GameManagers.Instance.DataManager.PlayerInventory.ChangeStones(1);
+        player.Inventory.ChangeStones(1);
         GameObject.Destroy(this.gameObject);
     }
 
