@@ -63,7 +63,7 @@ public class PlayerHand : MonoBehaviour {
         isPlaceableGroundlocked =
             type == PlaceableType.Campfire
          || type == PlaceableType.StickPillar
-         || type == PlaceableType.SimpleHut
+         || type == PlaceableType.StickHut
         ;
     }
     private void ChangeTypePlacing(int delta) {
@@ -85,11 +85,11 @@ public class PlayerHand : MonoBehaviour {
                 Campfire campfire = Instantiate(ResourcesHandler.Instance.Campfire).GetComponent<Campfire>();
                 campfire.Initialize(gameController.FieldPropsTF, placeableGhost.transform, true);
                 break;
-            case PlaceableType.SimpleHut:
+            case PlaceableType.StickHut:
             case PlaceableType.StickPillar:
             case PlaceableType.StickRoof:
                 SimpleBuildingBlock buildingBlock = Instantiate(ResourcesHandler.Instance.SimpleBuildingBlock).GetComponent<SimpleBuildingBlock>();
-                buildingBlock.Initialize(gameController, placeableGhost.transform, placeableGhost.MyType);
+                buildingBlock.Initialize(gameController, placeableGhost.transform, placeableGhost.MyType, 0);
                 break;
         }
         // Consume its cost.
@@ -174,9 +174,9 @@ public class PlayerHand : MonoBehaviour {
 
 
                 // Update its position!
-                Transform camTF = Camera.main.transform;
-                Vector3 pos = camTF.position + cameraTF.forward * PlaceForwardDist;
-                if (isPlaceableGroundlocked) { pos = GetGroundlockedPos(pos); } // Groundlocked? Lock pos to ground.
+                Vector3 pos;
+                if (isPlaceableGroundlocked) { pos = GetGroundlockedPos(); } // Groundlocked? Lock pos to ground.
+                else { pos = cameraTF.position + cameraTF.forward * PlaceForwardDist; }
                 placeableGhost.transform.position = pos;
                 placeableGhost.transform.rotation = Quaternion.Euler(0, myCamera.transform.eulerAngles.y, 0);
 
@@ -193,11 +193,18 @@ public class PlayerHand : MonoBehaviour {
     }
 
 
-    private Vector3 GetGroundlockedPos(Vector3 originalPos) {
-        if (Physics.Raycast(new Vector3(originalPos.x,1000,originalPos.z), Vector3.down, out hitInfo, 2000, lm_terrain)) {
+    private Vector3 GetGroundlockedPos() {
+        // It's close enough?
+        if (Physics.Raycast(cameraTF.position, cameraTF.forward, out hitInfo, PlaceForwardDist, lm_terrain)) {
             return hitInfo.point;
         }
-        return originalPos; // No hit? Return the original pos, I guess.
+        else {
+            Vector3 pos = cameraTF.position + cameraTF.forward * PlaceForwardDist;
+            if (Physics.Raycast(new Vector3(pos.x, 1000, pos.z), Vector3.down, out hitInfo, 2000, lm_terrain)) {
+                return hitInfo.point;
+            }
+            return pos; // No hit? Return the original pos, I guess.
+        }
     }
 
 

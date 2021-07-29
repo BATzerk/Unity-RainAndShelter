@@ -16,7 +16,7 @@ public class WeatherController : MonoBehaviour
     [SerializeField] private Material m_skyClear;
     [SerializeField] private Material m_skyOvercast;
     // Properties
-    public float CurrTime;// { get; private set; }
+    static public float WorldTime; // starts at 0 when we spawn. Only ticks up. Saves and loads.
     public float TimeWhenNextWeather { get; private set; }
     public float TimeUntilNextWeather { get; private set; }
     public WeatherState CurrState { get; private set; }
@@ -30,12 +30,12 @@ public class WeatherController : MonoBehaviour
     //  Save / Load
     // ----------------------------------------------------------------
     public void LoadValuesFromStorage() {
-        CurrTime = SaveStorage.GetFloat(SaveKeys.CurrGameTime(), 0);
+        WorldTime = SaveStorage.GetFloat(SaveKeys.WorldTime(), 0);
         TimeWhenNextWeather = SaveStorage.GetFloat(SaveKeys.TimeWhenNextWeather(), 3 * 60);
         SetCurrState((WeatherState) SaveStorage.GetInt(SaveKeys.CurrWeatherState(), 1));
     }
     public void SaveValuesToStorage() {
-        SaveStorage.SetFloat(SaveKeys.CurrGameTime(), CurrTime);
+        SaveStorage.SetFloat(SaveKeys.WorldTime(), WorldTime);
         SaveStorage.SetFloat(SaveKeys.TimeWhenNextWeather(), TimeWhenNextWeather);
         SaveStorage.SetInt(SaveKeys.CurrWeatherState(), (int)CurrState);
     }
@@ -62,8 +62,8 @@ public class WeatherController : MonoBehaviour
     }
 
     private void UpdateTimers() {
-        CurrTime += Time.deltaTime;
-        TimeUntilNextWeather = TimeWhenNextWeather - CurrTime;
+        WorldTime += Time.deltaTime;
+        TimeUntilNextWeather = TimeWhenNextWeather - WorldTime;
         if (TimeUntilNextWeather <= 0) { // time to switch?!
             CycleToNextWeatherState();
         }
@@ -94,12 +94,12 @@ public class WeatherController : MonoBehaviour
         switch (CurrState) {
             case WeatherState.Sunny:
                 SetCurrState(WeatherState.Raining);
-                TimeWhenNextWeather = CurrTime + 3 * 60;
+                TimeWhenNextWeather = WorldTime + 4 * 60;
                 break;
 
             case WeatherState.Raining:
                 SetCurrState(WeatherState.Sunny);
-                TimeWhenNextWeather = CurrTime + 3 * 60;
+                TimeWhenNextWeather = WorldTime + 3 * 60;
                 break;
 
             default:

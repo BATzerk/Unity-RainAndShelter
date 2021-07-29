@@ -168,8 +168,8 @@ public class GameController : MonoBehaviour
 
         // DEBUG
         if (Input.GetKeyDown(KeyCode.Tab)) { player.IsDebugWarpSpeed = !player.IsDebugWarpSpeed; }
-        if (Input.GetKeyDown(KeyCode.T)) { weatherController.CurrTime -= 10; }
-        if (Input.GetKeyDown(KeyCode.Y)) { weatherController.CurrTime += 10; }
+        if (Input.GetKeyDown(KeyCode.T)) { WeatherController.WorldTime -= 10; }
+        if (Input.GetKeyDown(KeyCode.Y)) { WeatherController.WorldTime += 10; }
         if (Input.GetKeyDown(KeyCode.U)) { player.Inventory.ChangeSticks(5); }
         if (Input.GetKeyDown(KeyCode.I)) { player.Inventory.ChangeStones(5); }
 

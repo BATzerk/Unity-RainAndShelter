@@ -27,13 +27,13 @@ public class PlaceableGhost : MonoBehaviour {
 
         // Destroy body.
         if (bodyGO != null) { Destroy(bodyGO); }
-        bodyGO = Instantiate(ResourcesHandler.Instance.GetPlaceableBody(MyType));
+        bodyGO = Instantiate(ResourcesHandler.Instance.GetPlaceableBody(MyType, WeatheredState.Good));
         GameUtils.ParentAndReset(bodyGO, this.transform);
 
         SetMaterial(m_ghost_placeable);
-        // Make all colliders triggers. Ghosts don't push things.
+        // Disable all colliders. Ghosts don't push things.
         foreach (Collider col in bodyGO.GetComponentsInChildren<Collider>()) {
-            col.isTrigger = true;
+            col.enabled = false;
         }
     }
     public void SetCanAfford(bool canAfford) {

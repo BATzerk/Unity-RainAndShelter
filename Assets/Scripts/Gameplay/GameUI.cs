@@ -56,7 +56,7 @@ public class GameUI : MonoBehaviour
 
 
     private void Update() {
-        float secsUntilNextWeatherState = weatherController.TimeWhenNextWeather - weatherController.CurrTime;
+        float secsUntilNextWeatherState = weatherController.TimeWhenNextWeather - WeatherController.WorldTime;
         string str = "time until ";
         str += GetWeatherName(weatherController.NextState) + ": ";
         str += TextUtils.GetSecondsToTimeString(secsUntilNextWeatherState);

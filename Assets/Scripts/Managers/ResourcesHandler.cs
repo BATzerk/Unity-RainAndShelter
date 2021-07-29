@@ -19,7 +19,7 @@ public class ResourcesHandler : MonoBehaviour {
     [SerializeField] private GameObject[] bushBodies; // the sub-prefabs.
     // Placeables
     [SerializeField] private GameObject campfireBody;
-    [SerializeField] private GameObject simpleHutBody;
+    [SerializeField] private GameObject[] stickHutBodies;
     [SerializeField] private GameObject stickPillarBody;
     [SerializeField] private GameObject stickRoofBody;
 
@@ -36,13 +36,18 @@ public class ResourcesHandler : MonoBehaviour {
             default: Debug.LogError("Oops, no bush body in ResourcesHandler for this BushType: " + type); return bushBodies[0];
         }
     }
-    public GameObject GetPlaceableBody(PlaceableType type) {
+    public GameObject GetPlaceableBody(PlaceableType type, WeatheredState state) {
         switch (type) {
             case PlaceableType.Campfire: return campfireBody;
-            case PlaceableType.SimpleHut: return simpleHutBody;
+            case PlaceableType.StickHut:
+                switch (state) {
+                    case WeatheredState.Good: return stickHutBodies[0];
+                    case WeatheredState.Leaky: return stickHutBodies[1];
+                    default: return stickHutBodies[2];
+                }
             case PlaceableType.StickPillar: return stickPillarBody;
             case PlaceableType.StickRoof: return stickRoofBody;
-            default: Debug.LogError("Oops, no PlaceableBody in ResourcesHandler for this PlaceableType: " + type); return simpleHutBody;
+            default: Debug.LogError("Oops, no PlaceableBody in ResourcesHandler for this PlaceableType: " + type); return stickPillarBody;
         }
     }
     

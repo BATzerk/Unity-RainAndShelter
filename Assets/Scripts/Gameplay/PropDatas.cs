@@ -62,12 +62,12 @@ public class PropData {
 
 [Serializable]
 public class SimpleBuildingBlockData : PropData {
+    public float TimeInRain;
     public PlaceableType myType;
     public SimpleBuildingBlockData(SimpleBuildingBlock myProp) {
+        SetTFValues(myProp.gameObject);
         myType = myProp.MyType;
-        pos = myProp.transform.position;
-        rot = myProp.transform.eulerAngles;
-        scale = myProp.transform.lossyScale;
+        TimeInRain = myProp.TimeInRain;
     }
 }
 [Serializable]

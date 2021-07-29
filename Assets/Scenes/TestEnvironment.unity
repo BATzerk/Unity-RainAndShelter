@@ -12124,7 +12124,6 @@ MonoBehaviour:
   rainMaker: {fileID: 523405120}
   m_skyClear: {fileID: 2100000, guid: cb20c710b0721ef4d88cabbec2aa4da7, type: 2}
   m_skyOvercast: {fileID: 2100000, guid: 2039a0ad0a9d05549928b70362f54902, type: 2}
-  CurrTime: 0
 --- !u!1 &777500184
 GameObject:
   m_ObjectHideFlags: 0
