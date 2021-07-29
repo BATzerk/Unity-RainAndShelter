@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5288428147559673999}
   - component: {fileID: 5288428147559673992}
   - component: {fileID: 5288428147559673998}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Stick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 5288428148846674174}
   - component: {fileID: 5288428148846674175}
   - component: {fileID: 5288428148846674168}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BodyCube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 5288428149442596448}
   - component: {fileID: 5288428149442596449}
   - component: {fileID: 5288428149442596450}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BodyCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

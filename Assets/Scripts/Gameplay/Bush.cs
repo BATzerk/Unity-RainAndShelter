@@ -44,6 +44,13 @@ public class Bush : MonoBehaviour, IClickable {
         myBodyGO = Instantiate(ResourcesHandler.Instance.GetBushBody(myType));
         GameUtils.ParentAndReset(myBodyGO, transform);
 
+        // HACK! Hardcoded fitting the dead bushes correctly.
+        if (bushType==BushType.Type2 || bushType==BushType.Type3 || bushType==BushType.Type4) {
+            myBodyGO.transform.localPosition = new Vector3(0, -0.2f, 0);
+            myBodyGO.transform.localEulerAngles = new Vector3(-90, 0, 0);
+            myBodyGO.transform.localScale = new Vector3(2, 2, 2);
+        }
+
         // Setup basics.
         numTimesClicked = 0;
         mr_bodyHighlight.enabled = false;

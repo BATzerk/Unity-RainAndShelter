@@ -64,10 +64,6 @@ public class GameController : MonoBehaviour
                     Campfire newObj = Instantiate(ResourcesHandler.Instance.Campfire).GetComponent<Campfire>();
                     newObj.Initialize(fieldPropsTF, data);
                 }
-                foreach (TreeData data in fieldPropsData.treeDatas) {
-                    Tree newObj = Instantiate(ResourcesHandler.Instance.Tree).GetComponent<Tree>();
-                    newObj.Initialize(fieldPropsTF, data);
-                }
                 foreach (RockData data in fieldPropsData.rockDatas) {
                     Rock newObj = Instantiate(ResourcesHandler.Instance.Rock).GetComponent<Rock>();
                     newObj.Initialize(fieldPropsTF, data);
@@ -78,6 +74,14 @@ public class GameController : MonoBehaviour
                 }
                 foreach (StickData data in fieldPropsData.stickDatas) {
                     Stick newObj = Instantiate(ResourcesHandler.Instance.Stick).GetComponent<Stick>();
+                    newObj.Initialize(fieldPropsTF, data);
+                }
+                foreach (TreeData data in fieldPropsData.treeDatas) {
+                    Tree newObj = Instantiate(ResourcesHandler.Instance.Tree).GetComponent<Tree>();
+                    newObj.Initialize(fieldPropsTF, data);
+                }
+                foreach (TrashPieceData data in fieldPropsData.trashPieceDatas) {
+                    TrashPiece newObj = Instantiate(ResourcesHandler.Instance.TrashPiece).GetComponent<TrashPiece>();
                     newObj.Initialize(fieldPropsTF, data);
                 }
             }
@@ -124,6 +128,19 @@ public class GameController : MonoBehaviour
                         Vector3 scale = Vector3.one * Random.Range(0.8f, 1.5f);
                         Tree obj = Instantiate(ResourcesHandler.Instance.Tree).GetComponent<Tree>();
                         obj.Initialize(fieldPropsTF, pos, rot, scale, Tree.GetRandomType());
+                    }
+                }
+                // Randomly add TRASH PIECES.
+                for (int i = 0; i < 1000; i++) {
+                    float x = Random.Range(tb.xMin, tb.xMax);
+                    float z = Random.Range(tb.yMin, tb.yMax);
+                    if (Physics.Raycast(new Vector3(x, 1000, z), Vector3.down, out hit, 9999, lm_terrain)) {
+                        // Add one at the hit pos!
+                        Vector3 pos = hit.point;
+                        Vector3 rot = new Vector3(0, Random.Range(0, 360), 0);
+                        Vector3 scale = Vector3.one;
+                        TrashPiece obj = Instantiate(ResourcesHandler.Instance.TrashPiece).GetComponent<TrashPiece>();
+                        obj.Initialize(fieldPropsTF, pos, rot, scale, TrashPiece.GetRandomType());
                     }
                 }
             }

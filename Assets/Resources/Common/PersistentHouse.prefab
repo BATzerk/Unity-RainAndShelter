@@ -133,17 +133,23 @@ MonoBehaviour:
   ImageLinesJoint: {fileID: 1586272661960996, guid: 6d0cc624a21c645cc81a888903aa4d14, type: 3}
   Bush: {fileID: 8226623138055876833, guid: f394c5b37ad8e443e97ee6355b051037, type: 3}
   Campfire: {fileID: 2064468492327867996, guid: 4e8a23fa20680468d96626dbc4a9ba29, type: 3}
-  Tree: {fileID: 1148613061152340, guid: eded051879df4c147b9010199d240258, type: 3}
   Rock: {fileID: 8226623138055876833, guid: 93531b1c5e16d417e8ecc3f6d9098a41, type: 3}
   Stone: {fileID: 5288428147559673994, guid: 2bf23bfbc3d1b45e4bc653c455b485be, type: 3}
   Stick: {fileID: 5288428147559673994, guid: 80e74fab446774d408679c59ff9fdaf6, type: 3}
   SimpleBuildingBlock: {fileID: 7891357218825188859, guid: c8d3e65801807491f90a2a44819f4e32, type: 3}
+  TrashPiece: {fileID: 3806992662087208700, guid: f01c3e28319ab4da485a5b2e81199040, type: 3}
+  Tree: {fileID: 1148613061152340, guid: eded051879df4c147b9010199d240258, type: 3}
   bushBodies:
   - {fileID: 1253365200111527898, guid: 8109e9e16ba4cc04b8e0928aea897927, type: 3}
   - {fileID: 7992715529498131577, guid: 0cc0db2b14252644da9f1f74ed0c8f90, type: 3}
-  - {fileID: 6786704563919835699, guid: ff0b0a3d7ae7a9e4f8505795785ad853, type: 3}
-  - {fileID: 2121115777601418451, guid: e334e6614ad50f749b0a37528784c614, type: 3}
-  - {fileID: 4119340359363394084, guid: 431e05c5e2b18ba4fa6b3b0a6f687786, type: 3}
+  - {fileID: 919132149155446097, guid: 80f770981cf7a42b4b1fa4a0235a684c, type: 3}
+  - {fileID: 919132149155446097, guid: 80f770981cf7a42b4b1fa4a0235a684c, type: 3}
+  - {fileID: 919132149155446097, guid: acd9fd3c9c6f1410e8db4094b5a79fd4, type: 3}
+  trashPieceBodies:
+  - {fileID: 4114990986618765175, guid: 4e23d7c2f2cd144acaf22007c4976a35, type: 3}
+  - {fileID: 2017594682062757874, guid: c0f2a666102174d6d891196e445118b2, type: 3}
+  - {fileID: 2287019011685580069, guid: dd2518b33f7194805b35eb21caf6c4ba, type: 3}
+  - {fileID: 3268600848108661546, guid: b84afb33ae0304e7782732660e07aae5, type: 3}
   campfireBody: {fileID: 4867309344064993425, guid: a2ad45cdd6c944eebaf29884526ef1fc, type: 3}
   stickHutBodies:
   - {fileID: 5524503520078092544, guid: c15a151a4426b44ddac03d4327e14ab2, type: 3}

@@ -16,7 +16,7 @@ public class Rock : MonoBehaviour, IClickable {
     [SerializeField] MeshRenderer mr_bodyHighlight;
     [SerializeField] GameObject myBodyGO; // this is created dynamically!
     // Properties
-    [SerializeField] private RockType myType; // NOTE: UNUSED!
+    private RockType myType;
     private int numTimesClicked = 0;
 
     // Getters

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8543493012939957418}
   - component: {fileID: 6679751870879798625}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8040632307644716700}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HeadTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 2064468492327867997}
   - component: {fileID: 2064468492327867998}
   - component: {fileID: 517921101363621167}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Campfire
   m_TagString: Untagged
   m_Icon: {fileID: 0}

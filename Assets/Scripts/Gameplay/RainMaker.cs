@@ -16,6 +16,7 @@ public class RainMaker : MonoBehaviour {
     private float screenFogAlphaTarget;
     RaycastHit hit;
     // References
+    [SerializeField] private WeatherController weatherController;
     [SerializeField] private Player player;
     private Transform tf_mainCamera;
 
@@ -37,6 +38,20 @@ public class RainMaker : MonoBehaviour {
     private void FixedUpdate() {
         // Screen Fog
         {
+            // Apply color
+            Color targetColor;
+            switch (weatherController.CurrTimeOfDay) {
+                case TimeOfDay.Night:
+                    targetColor = new Color255(90, 90, 90).ToColor(); break;
+                case TimeOfDay.Dawn:
+                case TimeOfDay.Dusk:
+                    targetColor = new Color255(120, 104, 100).ToColor(); break;
+                case TimeOfDay.Day:
+                default:
+                    targetColor = new Color255(144, 144, 144).ToColor(); break;
+            }
+            i_screenFog.color = targetColor;
+
             // Update target
             float targetDry  = Mathf.Lerp(0f, 0.35f, RainVolume);
             float targetRain = Mathf.Lerp(0.3f, 0.7f, RainVolume);

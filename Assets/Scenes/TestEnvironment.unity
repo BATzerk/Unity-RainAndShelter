@@ -20,13 +20,13 @@ RenderSettings:
   m_FogDensity: 0.02
   m_LinearFogStart: 13
   m_LinearFogEnd: 48.5
-  m_AmbientSkyColor: {r: 0.70610964, g: 0.7901703, b: 1.6055588, a: 1}
+  m_AmbientSkyColor: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 1}
   m_AmbientEquatorColor: {r: 0.83671474, g: 0, b: 0, a: 1}
   m_AmbientGroundColor: {r: 0, g: 0.7735849, b: 0.033898048, a: 1}
   m_AmbientIntensity: 4.05
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 2039a0ad0a9d05549928b70362f54902, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: cb20c710b0721ef4d88cabbec2aa4da7, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -6924,6 +6924,7 @@ MonoBehaviour:
   ps_rainDrops: {fileID: 852737714}
   i_screenFog: {fileID: 2095932026}
   RainVolume: 0.8
+  weatherController: {fileID: 763462542}
   player: {fileID: 1366493792}
 --- !u!1 &540214513
 GameObject:
@@ -18349,10 +18350,6 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
-      propertyPath: m_JumpSpeed
-      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1641448391803501524, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
       propertyPath: gameController
@@ -34434,7 +34431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 0.14117648}
+  m_Color: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

@@ -28,9 +28,9 @@ public class WeatherController : MonoBehaviour
     public float CurrHour { get; private set; } // from 0 to 24.
     public float TimeWhenNextWeather { get; private set; }
     public float TimeUntilNextWeather { get; private set; }
+    public TimeOfDay CurrTimeOfDay { get; private set; }
     public WeatherState CurrState { get; private set; }
     public WeatherState NextState { get; private set; }
-    private TimeOfDay currTimeOfDay;
 
     // Getters
     public bool IsRaining { get { return CurrState == WeatherState.Raining; } }
@@ -69,11 +69,11 @@ public class WeatherController : MonoBehaviour
 
         // Update timeOfDay!
         {
-            if (CurrHour < 3) currTimeOfDay = TimeOfDay.Night;
-            else if (CurrHour < 4) currTimeOfDay = TimeOfDay.Dawn;
-            else if (CurrHour < 22) currTimeOfDay = TimeOfDay.Day;
-            else if (CurrHour < 23) currTimeOfDay = TimeOfDay.Dusk;
-            else currTimeOfDay = TimeOfDay.Night;
+            if (CurrHour < 3) CurrTimeOfDay = TimeOfDay.Night;
+            else if (CurrHour < 4) CurrTimeOfDay = TimeOfDay.Dawn;
+            else if (CurrHour < 22) CurrTimeOfDay = TimeOfDay.Day;
+            else if (CurrHour < 23) CurrTimeOfDay = TimeOfDay.Dusk;
+            else CurrTimeOfDay = TimeOfDay.Night;
         }
 
         // Update skybox visuals.
@@ -82,7 +82,7 @@ public class WeatherController : MonoBehaviour
                 case WeatherState.Sunny:
                     RenderSettings.skybox = TimeUntilNextWeather > 40f ? m_skyClear : m_skyOvercast;
                     RenderSettings.ambientIntensity = 0.2f;// does nothing??
-                    switch (currTimeOfDay) {
+                    switch (CurrTimeOfDay) {
                         case TimeOfDay.Day:
                             RenderSettings.ambientSkyColor = new Color(1, 1, 1);
                             m_skyClear.SetFloat("_Exposure", 1.72f);//CurrHour * 0.1f);
@@ -104,7 +104,7 @@ public class WeatherController : MonoBehaviour
                 case WeatherState.Raining:
                     RenderSettings.skybox = m_skyOvercast;
                     RenderSettings.ambientIntensity = 1.0f;// does nothing??
-                    switch (currTimeOfDay) {
+                    switch (CurrTimeOfDay) {
                         case TimeOfDay.Day:
                             RenderSettings.ambientSkyColor = new Color(1,1,1);
                             m_skyOvercast.SetFloat("_Exposure", 1.6f);//CurrHour * 0.1f);

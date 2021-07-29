@@ -9,10 +9,11 @@ public class FieldPropsData {
     public List<SimpleBuildingBlockData> simpleBuildingBlockDatas = new List<SimpleBuildingBlockData>();
     public List<BushData> bushDatas = new List<BushData>();
     public List<CampfireData> campfireDatas = new List<CampfireData>();
-    public List<TreeData> treeDatas = new List<TreeData>();
     public List<RockData> rockDatas = new List<RockData>();
     public List<StoneData> stoneDatas = new List<StoneData>();
     public List<StickData> stickDatas = new List<StickData>();
+    public List<TrashPieceData> trashPieceDatas = new List<TrashPieceData>();
+    public List<TreeData> treeDatas = new List<TreeData>();
 
     // Creation
     public void PopulateFromWorld(Transform containerTF) {
@@ -31,9 +32,6 @@ public class FieldPropsData {
         foreach (Campfire obj in containerTF.GetComponentsInChildren<Campfire>()) {
             campfireDatas.Add(new CampfireData(obj));
         }
-        foreach (Tree obj in containerTF.GetComponentsInChildren<Tree>()) {
-            treeDatas.Add(new TreeData(obj));
-        }
         foreach (Rock obj in containerTF.GetComponentsInChildren<Rock>()) {
             rockDatas.Add(new RockData(obj));
         }
@@ -42,6 +40,12 @@ public class FieldPropsData {
         }
         foreach (Stick obj in containerTF.GetComponentsInChildren<Stick>()) {
             stickDatas.Add(new StickData(obj));
+        }
+        foreach (TrashPiece obj in containerTF.GetComponentsInChildren<TrashPiece>()) {
+            trashPieceDatas.Add(new TrashPieceData(obj));
+        }
+        foreach (Tree obj in containerTF.GetComponentsInChildren<Tree>()) {
+            treeDatas.Add(new TreeData(obj));
         }
     }
 }
@@ -106,6 +110,14 @@ public class StoneData : PropData {
 public class StickData : PropData {
     public StickData(Stick myProp) {
         SetTFValues(myProp.gameObject);
+    }
+}
+[Serializable]
+public class TrashPieceData : PropData {
+    public TrashPieceType myType;
+    public TrashPieceData(TrashPiece myProp) {
+        SetTFValues(myProp.gameObject);
+        myType = myProp.MyType;
     }
 }
 [Serializable]

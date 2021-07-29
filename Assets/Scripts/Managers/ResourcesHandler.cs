@@ -11,12 +11,14 @@ public class ResourcesHandler : MonoBehaviour {
     [Header("RainAndShelter")]
     [SerializeField] public GameObject Bush;
     [SerializeField] public GameObject Campfire;
-    [SerializeField] public GameObject Tree;
     [SerializeField] public GameObject Rock;
     [SerializeField] public GameObject Stone;
     [SerializeField] public GameObject Stick;
     [SerializeField] public GameObject SimpleBuildingBlock;
+    [SerializeField] public GameObject TrashPiece;
+    [SerializeField] public GameObject Tree;
     [SerializeField] private GameObject[] bushBodies; // the sub-prefabs.
+    [SerializeField] private GameObject[] trashPieceBodies; // the sub-prefabs.
     // Placeables
     [SerializeField] private GameObject campfireBody;
     [SerializeField] private GameObject[] stickHutBodies;
@@ -34,6 +36,16 @@ public class ResourcesHandler : MonoBehaviour {
             case BushType.Type3: return bushBodies[3];
             case BushType.Type4: return bushBodies[4];
             default: Debug.LogError("Oops, no bush body in ResourcesHandler for this BushType: " + type); return bushBodies[0];
+        }
+    }
+    public GameObject GetTrashPieceBody(TrashPieceType type) {
+        //return bushBodies[type];
+        switch (type) {
+            case TrashPieceType.SodaCan: return trashPieceBodies[0];
+            case TrashPieceType.SodaCanCrushed: return trashPieceBodies[1];
+            case TrashPieceType.TinCan: return trashPieceBodies[2];
+            case TrashPieceType.TinCanCrushedSlightly: return trashPieceBodies[3];
+            default: Debug.LogError("Oops, no body in ResourcesHandler for this TrashPieceType: " + type); return trashPieceBodies[0];
         }
     }
     public GameObject GetPlaceableBody(PlaceableType type, WeatheredState state) {
