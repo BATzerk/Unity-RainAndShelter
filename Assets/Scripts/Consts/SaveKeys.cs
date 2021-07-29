@@ -15,6 +15,7 @@ public static class SaveKeys {
     public static string PlayerRotY() { return cliPrefix + "PlayerRotY"; }
     public static string FieldPropsData() { return cliPrefix + "FieldPropsData"; }
 
+    public static string CurrHour() { return cliPrefix + "CurrHour"; }
     public static string WorldTime() { return cliPrefix + "CurrGameTime"; }
     public static string CurrWeatherState() { return cliPrefix + "CurrWeatherState"; }
     public static string TimeWhenNextWeather() { return cliPrefix + "TimeWhenNextWeather"; }

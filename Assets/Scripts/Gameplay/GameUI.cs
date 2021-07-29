@@ -11,6 +11,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI t_countdown;
     [SerializeField] TextMeshProUGUI t_numSticks;
     [SerializeField] TextMeshProUGUI t_numStones;
+    [SerializeField] TextMeshProUGUI t_debugInfo;
     // References
     [SerializeField] private GameController gameController;
     [SerializeField] private WeatherController weatherController;
@@ -56,11 +57,15 @@ public class GameUI : MonoBehaviour
 
 
     private void Update() {
+        // Weather Countdown
         float secsUntilNextWeatherState = weatherController.TimeWhenNextWeather - WeatherController.WorldTime;
         string str = "time until ";
         str += GetWeatherName(weatherController.NextState) + ": ";
         str += TextUtils.GetSecondsToTimeString(secsUntilNextWeatherState);
         t_countdown.text = str;
+
+        // Debug text
+        t_debugInfo.text = "Time: " + TextUtils.GetSecondsToTimeString(weatherController.CurrHour*60);
     }
 
 
