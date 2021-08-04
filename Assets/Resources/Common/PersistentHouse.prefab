@@ -140,11 +140,9 @@ MonoBehaviour:
   TrashPiece: {fileID: 3806992662087208700, guid: f01c3e28319ab4da485a5b2e81199040, type: 3}
   Tree: {fileID: 1148613061152340, guid: eded051879df4c147b9010199d240258, type: 3}
   bushBodies:
-  - {fileID: 1253365200111527898, guid: 8109e9e16ba4cc04b8e0928aea897927, type: 3}
+  - {fileID: 919132149155446097, guid: f17a987baceb24d1dbbd41da97916176, type: 3}
   - {fileID: 7992715529498131577, guid: 0cc0db2b14252644da9f1f74ed0c8f90, type: 3}
   - {fileID: 919132149155446097, guid: 80f770981cf7a42b4b1fa4a0235a684c, type: 3}
-  - {fileID: 919132149155446097, guid: 80f770981cf7a42b4b1fa4a0235a684c, type: 3}
-  - {fileID: 919132149155446097, guid: acd9fd3c9c6f1410e8db4094b5a79fd4, type: 3}
   trashPieceBodies:
   - {fileID: 4114990986618765175, guid: 4e23d7c2f2cd144acaf22007c4976a35, type: 3}
   - {fileID: 2017594682062757874, guid: c0f2a666102174d6d891196e445118b2, type: 3}
@@ -157,6 +155,8 @@ MonoBehaviour:
   - {fileID: 5524503520078092544, guid: 035854c3d254643bd8af687086167239, type: 3}
   stickPillarBody: {fileID: 5524503520078092544, guid: 8db88d18ef28b4522a69a73a159b587d, type: 3}
   stickRoofBody: {fileID: 5524503520078092544, guid: 661a2503de53e4a428533b9b0bbd0177, type: 3}
+  toolIcon_axe: {fileID: 21300000, guid: fd687b2b835ae4b0d90750d7f5a061cc, type: 3}
+  toolIcon_shovel: {fileID: 21300000, guid: a1da3629273154708af0dae0d2120ade, type: 3}
 --- !u!1 &1742042021377422
 GameObject:
   m_ObjectHideFlags: 0

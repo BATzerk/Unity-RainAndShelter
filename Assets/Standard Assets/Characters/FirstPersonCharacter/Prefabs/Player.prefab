@@ -54,6 +54,7 @@ MonoBehaviour:
   myCamGO: {fileID: 100002}
   myFPC: {fileID: 11400000}
   charController: {fileID: 14300000}
+  Hand: {fileID: 1641448391803501524}
   IsDebugWarpSpeed: 0
   weatherController: {fileID: 0}
 --- !u!114 &1641448391803501524

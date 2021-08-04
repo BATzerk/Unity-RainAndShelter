@@ -40,10 +40,12 @@ public class EventBus {
     public void OnScreenSizeChanged () { ScreenSizeChangedEvent?.Invoke(); }
 
 
-    // Gameplay
-    public event NoParamAction PlayerInventoryChangedEvent;
+	// Gameplay
+	public event NoParamAction PlayerInventoryChangedEvent;
+	public event NoParamAction PlayerToolBeltChangedEvent;
 
-    public void OnPlayerInventoryChanged() { PlayerInventoryChangedEvent?.Invoke(); }
+	public void OnPlayerToolBeltChanged() { PlayerToolBeltChangedEvent?.Invoke(); }
+	public void OnPlayerInventoryChanged() { PlayerInventoryChangedEvent?.Invoke(); }
 
 
 

@@ -87,9 +87,11 @@ public class CampfireData : PropData {
 [Serializable]
 public class BushData : PropData {
     public BushType bushType;
+    public int numResourcesLeft;
     public BushData(Bush myProp) {
         SetTFValues(myProp.gameObject);
         bushType = myProp.MyType;
+        numResourcesLeft = myProp.NumResourcesLeft;
     }
 }
 [Serializable]
@@ -122,10 +124,12 @@ public class TrashPieceData : PropData {
 }
 [Serializable]
 public class TreeData : PropData {
+    public int numTimesChopped;
     public TreeType treeType;
     public TreeData(Tree myProp) {
         SetTFValues(myProp.gameObject);
         treeType = myProp.MyType;
+        numTimesChopped = myProp.NumTimesChopped;
     }
 }
 

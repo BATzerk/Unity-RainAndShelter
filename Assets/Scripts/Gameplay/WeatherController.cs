@@ -42,7 +42,7 @@ public class WeatherController : MonoBehaviour
     public void LoadValuesFromStorage() {
         CurrHour = SaveStorage.GetFloat(SaveKeys.CurrHour(), 0);
         WorldTime = SaveStorage.GetFloat(SaveKeys.WorldTime(), NewSaveStartingHour / RealSecondsToGameHours);
-        TimeWhenNextWeather = SaveStorage.GetFloat(SaveKeys.TimeWhenNextWeather(), 3 * 60);
+        TimeWhenNextWeather = SaveStorage.GetFloat(SaveKeys.TimeWhenNextWeather(), 9999999);//HACK TEMP disabled storm. 3 * 60);
         SetCurrState((WeatherState) SaveStorage.GetInt(SaveKeys.CurrWeatherState(), 1));
     }
     public void SaveValuesToStorage() {

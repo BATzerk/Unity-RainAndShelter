@@ -10,7 +10,7 @@ public class Stone : MonoBehaviour, IClickable {
     [SerializeField] Material m_bodyHovered;
 
     // Getters
-    public bool IsClickable() { return true; }
+    public bool IsClickable(Tool tool) { return true; }
 
 
 
@@ -31,7 +31,7 @@ public class Stone : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     //  Events
     // ----------------------------------------------------------------
-    public CursorType CurrCursorForMe() { return CursorType.Hand; }
+    public CursorType CurrCursorForMe(Tool tool) { return CursorType.Hand; }
     public void OnRClickMe(Player player) { }
     public void OnLClickMe(Player player) {
         player.Inventory.ChangeStones(1);

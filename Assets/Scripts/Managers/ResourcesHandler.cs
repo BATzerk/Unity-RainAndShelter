@@ -24,17 +24,29 @@ public class ResourcesHandler : MonoBehaviour {
     [SerializeField] private GameObject[] stickHutBodies;
     [SerializeField] private GameObject stickPillarBody;
     [SerializeField] private GameObject stickRoofBody;
+    // UI and Icons
+    [SerializeField] private Sprite toolIcon_axe;
+    [SerializeField] private Sprite toolIcon_shovel;
 
+
+
+
+    public Sprite GetToolIcon(ToolType type) {
+        switch (type) {
+            case ToolType.Axe: return toolIcon_axe;
+            case ToolType.Shovel: return toolIcon_shovel;
+            case ToolType.Hand: return null; // hand doesn't have an icon.
+            default: Debug.LogError("Whoa! No such tool for an icon sprite: " + type); return null;
+        }
+    }
 
 
     public GameObject GetBushBody(BushType type) {
         //return bushBodies[type];
         switch (type) {
-            case BushType.Type0: return bushBodies[0];
-            case BushType.Type1: return bushBodies[1];
-            case BushType.Type2: return bushBodies[2];
-            case BushType.Type3: return bushBodies[3];
-            case BushType.Type4: return bushBodies[4];
+            case BushType.Stick: return bushBodies[0];
+            case BushType.String: return bushBodies[1];
+            case BushType.Leaf: return bushBodies[2];
             default: Debug.LogError("Oops, no bush body in ResourcesHandler for this BushType: " + type); return bushBodies[0];
         }
     }

@@ -16,17 +16,19 @@ public struct PlaceableInfo {
     // Properties and Constructor
     public int SticksCost { get; private set; }
     public int StonesCost { get; private set; }
-    public PlaceableInfo(int _sticks, int _stones) {
+    public int StringsCost { get; private set; }
+    public PlaceableInfo(int _sticks, int _stones, int _strings) {
         this.SticksCost = _sticks;
         this.StonesCost = _stones;
+        this.StringsCost = _strings;
     }
 
     // Static Instances
-    public static PlaceableInfo Undefined = new PlaceableInfo(0, 0);
-    public static PlaceableInfo Campfire = new PlaceableInfo(5, 0);
-    public static PlaceableInfo StickHut = new PlaceableInfo(10, 0);
-    public static PlaceableInfo StickPillar = new PlaceableInfo(3, 0);
-    public static PlaceableInfo StickRoof = new PlaceableInfo(8, 0);
+    public static PlaceableInfo Undefined = new PlaceableInfo(0, 0, 0);
+    public static PlaceableInfo Campfire = new PlaceableInfo(5, 0, 0);
+    public static PlaceableInfo StickHut = new PlaceableInfo(10, 0, 0);
+    public static PlaceableInfo StickPillar = new PlaceableInfo(3, 0, 0);
+    public static PlaceableInfo StickRoof = new PlaceableInfo(8, 0, 0);
     public static PlaceableInfo GetInfoFromType(PlaceableType type) {
         switch (type) {
             case PlaceableType.Campfire: return Campfire;
@@ -40,7 +42,9 @@ public struct PlaceableInfo {
     // Getters
     public bool CanAfford(PlayerInventory pi) {
         return pi.NumSticks >= SticksCost
-            && pi.NumStones >= StonesCost;
+            && pi.NumStones >= StonesCost
+            && pi.NumStrings >= StringsCost
+        ;
     }
 }
 
@@ -86,8 +90,8 @@ public class SimpleBuildingBlock : MonoBehaviour, IClickable
         return false;
     }
     private void SetTimeInRain(float _timeInRain) {
-        float threshLeaky = 20;
-        float threshRuined = 40;
+        float threshLeaky = 100;
+        float threshRuined = 170;
 
         WeatheredState prevState = WeatheredState;
         TimeInRain = _timeInRain;
@@ -177,13 +181,11 @@ public class SimpleBuildingBlock : MonoBehaviour, IClickable
     // ----------------------------------------------------------------
     //  Clicking
     // ----------------------------------------------------------------
-    public bool IsClickable() { return true; }
-    public CursorType CurrCursorForMe() { return CursorType.Punch; }
+    public bool IsClickable(Tool tool) { return true; }
+    public CursorType CurrCursorForMe(Tool tool) { return CursorType.Punch; }
     public void OnHoverOver() {
-        // todo: Somethin'.
     }
     public void OnHoverOut() {
-        // todo: Somethin'.
     }
     public void OnRClickMe(Player player) {
         NudgeFromPlayer(player);

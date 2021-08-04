@@ -17,9 +17,6 @@ public class TrashPiece : MonoBehaviour, IClickable {
     // Properties
     public TrashPieceType MyType { get; private set; }
 
-    // Getters
-    public bool IsClickable() { return true; }
-
 
     // ----------------------------------------------------------------
     //  Initialize
@@ -46,7 +43,8 @@ public class TrashPiece : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     //  Events
     // ----------------------------------------------------------------
-    public CursorType CurrCursorForMe() { return CursorType.Hand; }
+    public bool IsClickable(Tool tool) { return true; }
+    public CursorType CurrCursorForMe(Tool tool) { return CursorType.Hand; }
     public void OnRClickMe(Player player) { }
     public void OnLClickMe(Player player) {
         // hacky access to PlayerHand.

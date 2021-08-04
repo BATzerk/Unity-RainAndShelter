@@ -45,7 +45,7 @@ public class RainMaker : MonoBehaviour {
                     targetColor = new Color255(90, 90, 90).ToColor(); break;
                 case TimeOfDay.Dawn:
                 case TimeOfDay.Dusk:
-                    targetColor = new Color255(120, 104, 100).ToColor(); break;
+                    targetColor = new Color255(110, 104, 102).ToColor(); break;
                 case TimeOfDay.Day:
                 default:
                     targetColor = new Color255(144, 144, 144).ToColor(); break;

@@ -11,6 +11,7 @@ public static class SaveKeys {
 
 
     public static string PlayerInventory() { return cliPrefix + "PlayerInventory"; }
+    public static string PlayerToolBelt() { return cliPrefix + "PlayerToolBelt"; }
     public static string PlayerPos() { return cliPrefix + "PlayerPos"; }
     public static string PlayerRotY() { return cliPrefix + "PlayerRotY"; }
     public static string FieldPropsData() { return cliPrefix + "FieldPropsData"; }

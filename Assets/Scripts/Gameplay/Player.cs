@@ -7,8 +7,10 @@ public class Player : MonoBehaviour {
     [SerializeField] private GameObject myCamGO;
     [SerializeField] private UnityStandardAssets.Characters.FirstPerson.FirstPersonController myFPC;
     [SerializeField] private CharacterController charController;
+    public PlayerHand Hand;
     // Properties
     public PlayerInventory Inventory { get; private set; } // saved/loaded.
+    public PlayerToolBelt ToolBelt { get; private set; } // saved/loaded.
     private RaycastHit hit;
     public bool IsInRain { get; private set; }
     public bool IsUnderShelter { get; private set; }
@@ -53,6 +55,24 @@ public class Player : MonoBehaviour {
                 Inventory = new PlayerInventory();
             }
         }
+        // ToolBelt
+        {
+            string saveKey = SaveKeys.PlayerToolBelt();
+            // We HAVE save for this! Load it!
+            if (SaveStorage.HasKey(saveKey)) {
+                string jsonString = SaveStorage.GetString(saveKey);
+                ToolBelt = JsonUtility.FromJson<PlayerToolBelt>(jsonString);
+            }
+            // We DON'T have a save for this. Make a new UserData.
+            else {
+                ToolBelt = new PlayerToolBelt();
+            }
+        }
+        // Initialize Hand.
+        Hand.Initialize();
+        // Dispatch events so UIs update!
+        EventBus.Instance.OnPlayerInventoryChanged();
+        EventBus.Instance.OnPlayerToolBeltChanged();
     }
 
     public void SavePropertiesToStorage() {
@@ -61,11 +81,10 @@ public class Player : MonoBehaviour {
             SaveStorage.SetVector3(SaveKeys.PlayerPos(), GetPos());
             SaveStorage.SetFloat(SaveKeys.PlayerRotY(), GetRotY());
         }
-        // Inventory.
+        // ToolBelt and Inventory
         {
-            string saveKey = SaveKeys.PlayerInventory();
-            string jsonString = JsonUtility.ToJson(Inventory);
-            SaveStorage.SetString(saveKey, jsonString);
+            SaveStorage.SetString(SaveKeys.PlayerToolBelt(), JsonUtility.ToJson(ToolBelt));
+            SaveStorage.SetString(SaveKeys.PlayerInventory(), JsonUtility.ToJson(Inventory));
         }
     }
 

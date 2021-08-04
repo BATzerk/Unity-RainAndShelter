@@ -101,7 +101,7 @@ public class GameController : MonoBehaviour
                         Vector3 rot = new Vector3(0, Random.Range(0, 360), 0);
                         Vector3 scale = Vector3.one;
                         Bush obj = Instantiate(ResourcesHandler.Instance.Bush).GetComponent<Bush>();
-                        obj.Initialize(fieldPropsTF, pos, rot, scale, Bush.GetRandomType());
+                        obj.Initialize(fieldPropsTF, pos, rot, scale, Bush.GetRandomType(), 3);
                     }
                 }
                 // Randomly add ROCKS.
@@ -118,7 +118,7 @@ public class GameController : MonoBehaviour
                     }
                 }
                 // Randomly add TREES.
-                for (int i=0; i<50; i++) {
+                for (int i=0; i<12; i++) {
                     float x = Random.Range(tb.xMin, tb.xMax);
                     float z = Random.Range(tb.yMin, tb.yMax);
                     if (Physics.Raycast(new Vector3(x,1000,z), Vector3.down, out hit, 9999, lm_terrain)) {
@@ -127,7 +127,7 @@ public class GameController : MonoBehaviour
                         Vector3 rot = new Vector3(0, Random.Range(0,360), 0);
                         Vector3 scale = Vector3.one * Random.Range(0.8f, 1.5f);
                         Tree obj = Instantiate(ResourcesHandler.Instance.Tree).GetComponent<Tree>();
-                        obj.Initialize(fieldPropsTF, pos, rot, scale, Tree.GetRandomType());
+                        obj.Initialize(fieldPropsTF, pos, rot, scale, Tree.GetRandomType(), 0);
                     }
                 }
                 // Randomly add TRASH PIECES.
@@ -189,6 +189,8 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y)) { WeatherController.WorldTime += 10; }
         if (Input.GetKeyDown(KeyCode.U)) { player.Inventory.ChangeSticks(5); }
         if (Input.GetKeyDown(KeyCode.I)) { player.Inventory.ChangeStones(5); }
+        if (Input.GetKeyDown(KeyCode.X)) { player.ToolBelt.tools[0] = new Tool(ToolType.Axe, 1); }
+        if (Input.GetKeyDown(KeyCode.V)) { player.ToolBelt.tools[1] = new Tool(ToolType.Shovel, 1); }
 
 
         // Reload scene

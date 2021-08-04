@@ -20,7 +20,6 @@ public class Rock : MonoBehaviour, IClickable {
     private int numTimesClicked = 0;
 
     // Getters
-    public bool IsClickable() { return true; }
     public RockType MyType { get { return myType; } }
 
 
@@ -54,7 +53,8 @@ public class Rock : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     //  Events
     // ----------------------------------------------------------------
-    public CursorType CurrCursorForMe() { return CursorType.Punch; }
+    public bool IsClickable(Tool tool) { return true; }
+    public CursorType CurrCursorForMe(Tool tool) { return CursorType.Punch; }
     public void OnRClickMe(Player player) { }
     public void OnLClickMe(Player player) {
         // Shake it, baby!

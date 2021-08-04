@@ -9,16 +9,15 @@ public class GameUI : MonoBehaviour
     // Components
     [SerializeField] Image i_cursor;
     [SerializeField] TextMeshProUGUI t_countdown;
-    [SerializeField] TextMeshProUGUI t_numSticks;
-    [SerializeField] TextMeshProUGUI t_numStones;
     [SerializeField] TextMeshProUGUI t_debugInfo;
     // References
-    [SerializeField] private GameController gameController;
     [SerializeField] private WeatherController weatherController;
     [SerializeField] private Sprite s_cursorNeutral;
     [SerializeField] private Sprite s_cursorCircle;
     [SerializeField] private Sprite s_cursorHand;
     [SerializeField] private Sprite s_cursorPunch;
+    [SerializeField] private Sprite s_cursorChop;
+    [SerializeField] private Sprite s_cursorDig;
 
 
     // Getters
@@ -36,26 +35,16 @@ public class GameUI : MonoBehaviour
             case CursorType.Circle: return s_cursorCircle;
             case CursorType.Hand: return s_cursorHand;
             case CursorType.Punch: return s_cursorPunch;
+            case CursorType.Chop: return s_cursorChop;
+            case CursorType.Dig: return s_cursorDig;
             default: Debug.LogError("No cursor sprite for type: " + ct); return null;
         }
     }
 
 
     // ----------------------------------------------------------------
-    //  Start / Destroy
+    //  Update
     // ----------------------------------------------------------------
-    private void Start() {
-        UpdateInventoryTexts();
-
-        // Add event listeners!
-        EventBus.Instance.PlayerInventoryChangedEvent += OnPlayerInventoryChanged;
-    }
-    private void OnDestroy() {
-        // Remove event listeners!
-        EventBus.Instance.PlayerInventoryChangedEvent -= OnPlayerInventoryChanged;
-    }
-
-
     private void Update() {
         // Weather Countdown
         float secsUntilNextWeatherState = weatherController.TimeWhenNextWeather - WeatherController.WorldTime;
@@ -70,23 +59,10 @@ public class GameUI : MonoBehaviour
 
 
     // ----------------------------------------------------------------
-    //  Events
-    // ----------------------------------------------------------------
-    private void OnPlayerInventoryChanged() {
-        UpdateInventoryTexts();
-    }
-
-
-    // ----------------------------------------------------------------
     //  Doers
     // ----------------------------------------------------------------
     public void SetCursorType(CursorType ct) {
         i_cursor.sprite = GetCursorSpriteFromType(ct);
-    }
-    private void UpdateInventoryTexts() {
-        PlayerInventory pi = gameController.Player.Inventory;
-        t_numSticks.text = "sticks: " + pi.NumSticks;
-        t_numStones.text = "stones: " + pi.NumStones;
     }
 
 

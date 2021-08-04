@@ -13,9 +13,6 @@ public class Campfire : MonoBehaviour, IClickable {
     //[SerializeField] Material m_bodyNormal;
     //[SerializeField] Material m_bodyHovered;
 
-    // Getters
-    public bool IsClickable() { return true; }
-
 
 
     // ----------------------------------------------------------------
@@ -65,7 +62,8 @@ public class Campfire : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     //  Events
     // ----------------------------------------------------------------
-    public CursorType CurrCursorForMe() { return CursorType.Circle; }
+    public bool IsClickable(Tool tool) { return true; }
+    public CursorType CurrCursorForMe(Tool tool) { return CursorType.Circle; }
     public void OnRClickMe(Player player) { }
     public void OnLClickMe(Player player) {
         SetIsLit(!IsLit);

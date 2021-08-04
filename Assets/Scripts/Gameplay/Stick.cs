@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Stick : MonoBehaviour, IClickable {
-    // Components
-    [SerializeField] MeshRenderer bodyMeshA;
-    [SerializeField] MeshRenderer bodyMeshB;
-    // References
-    [SerializeField] Material m_bodyNormal;
-    [SerializeField] Material m_bodyHovered;
-
-    // Getters
-    public bool IsClickable() { return true; }
+    //// Components
+    //[SerializeField] MeshRenderer bodyMeshA;
+    //[SerializeField] MeshRenderer bodyMeshB;
+    //// References
+    //[SerializeField] Material m_bodyNormal;
+    //[SerializeField] Material m_bodyHovered;
 
 
 
@@ -32,7 +29,8 @@ public class Stick : MonoBehaviour, IClickable {
     // ----------------------------------------------------------------
     //  Events
     // ----------------------------------------------------------------
-    public CursorType CurrCursorForMe() { return CursorType.Hand; }
+    public bool IsClickable(Tool tool) { return true; }
+    public CursorType CurrCursorForMe(Tool tool) { return CursorType.Hand; }
     public void OnRClickMe(Player player) { }
     public void OnLClickMe(Player player) {
         player.Inventory.ChangeSticks(1);
@@ -40,13 +38,13 @@ public class Stick : MonoBehaviour, IClickable {
     }
 
     public void OnHoverOver() {
-        bodyMeshA.material = m_bodyHovered;
-        bodyMeshB.material = m_bodyHovered;
+        //bodyMeshA.material = m_bodyHovered;
+        //bodyMeshB.material = m_bodyHovered;
     }
     public void OnHoverOut() {
-        if (bodyMeshA == null) { return; } // Safety check.
-        bodyMeshA.material = m_bodyNormal;
-        bodyMeshB.material = m_bodyNormal;
+        //if (bodyMeshA == null) { return; } // Safety check.
+        //bodyMeshA.material = m_bodyNormal;
+        //bodyMeshB.material = m_bodyNormal;
     }
 
 

@@ -8,10 +8,12 @@ public class PlayerInventory {
     // Properties
     [SerializeField] private int numSticks;
     [SerializeField] private int numStones;
+    [SerializeField] private int numStrings;
 
     // Getters / Setters
     public int NumSticks { get { return numSticks; } }
     public int NumStones { get { return numStones; } }
+    public int NumStrings { get { return numStrings; } }
     public void SetNumSticks(int val) {
         numSticks = val;
         EventBus.Instance.OnPlayerInventoryChanged();
@@ -20,12 +22,17 @@ public class PlayerInventory {
         numStones = val;
         EventBus.Instance.OnPlayerInventoryChanged();
     }
+    public void SetNumStrings(int val) {
+        numStrings = val;
+        EventBus.Instance.OnPlayerInventoryChanged();
+    }
 
 
     // Constructor
     public PlayerInventory() {
         numSticks = 0;
         numStones = 0;
+        numStrings = 0;
     }
 
 
@@ -36,9 +43,13 @@ public class PlayerInventory {
     public void ChangeStones(int delta) {
         SetNumStones(numStones + delta);
     }
+    public void ChangeStrings(int delta) {
+        SetNumStrings(numStrings + delta);
+    }
     public void PayForCost(PlaceableInfo placeableInfo) {
         ChangeSticks(-placeableInfo.SticksCost);
         ChangeStones(-placeableInfo.StonesCost);
+        ChangeStrings(-placeableInfo.StringsCost);
     }
 
 }
