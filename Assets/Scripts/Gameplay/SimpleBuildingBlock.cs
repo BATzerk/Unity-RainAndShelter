@@ -3,8 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum PlaceableType {
+public enum CraftableType {
     Undefined,
+
+    //// Tools
+    //Axe,
+    //Shovel,
+
+    // Placeables
     Campfire,
     StickHut,
     StickPillar,
@@ -12,30 +18,41 @@ public enum PlaceableType {
 }
 
 
-public struct PlaceableInfo {
+public struct CraftableInfo {
     // Properties and Constructor
     public int SticksCost { get; private set; }
     public int StonesCost { get; private set; }
-    public int StringsCost { get; private set; }
-    public PlaceableInfo(int _sticks, int _stones, int _strings) {
+    public int TwinesCost { get; private set; }
+    public CraftableInfo(int _sticks, int _stones, int _twines) {
         this.SticksCost = _sticks;
         this.StonesCost = _stones;
-        this.StringsCost = _strings;
+        this.TwinesCost = _twines;
     }
 
     // Static Instances
-    public static PlaceableInfo Undefined = new PlaceableInfo(0, 0, 0);
-    public static PlaceableInfo Campfire = new PlaceableInfo(5, 0, 0);
-    public static PlaceableInfo StickHut = new PlaceableInfo(10, 0, 0);
-    public static PlaceableInfo StickPillar = new PlaceableInfo(3, 0, 0);
-    public static PlaceableInfo StickRoof = new PlaceableInfo(8, 0, 0);
-    public static PlaceableInfo GetInfoFromType(PlaceableType type) {
+    public static CraftableInfo Undefined = new CraftableInfo(0, 0, 0);
+
+    public static CraftableInfo Axe = new CraftableInfo(2, 3, 3);
+    public static CraftableInfo Shovel = new CraftableInfo(3, 2, 3);
+
+    public static CraftableInfo Campfire = new CraftableInfo(5, 0, 0);
+    public static CraftableInfo StickHut = new CraftableInfo(10, 0, 0);
+    public static CraftableInfo StickPillar = new CraftableInfo(3, 0, 0);
+    public static CraftableInfo StickRoof = new CraftableInfo(8, 0, 0);
+    public static CraftableInfo GetInfoFromType(CraftableType type) {
         switch (type) {
-            case PlaceableType.Campfire: return Campfire;
-            case PlaceableType.StickHut: return StickHut;
-            case PlaceableType.StickPillar: return StickPillar;
-            case PlaceableType.StickRoof: return StickRoof;
-            default: Debug.LogError("Oops! PlaceableInfo not defined by type: " + type); return Undefined;
+            case CraftableType.Campfire: return Campfire;
+            case CraftableType.StickHut: return StickHut;
+            case CraftableType.StickPillar: return StickPillar;
+            case CraftableType.StickRoof: return StickRoof;
+            default: Debug.LogError("Oops! CraftableInfo not defined by type: " + type); return Undefined;
+        }
+    }
+    public static CraftableInfo GetInfoFromType(ToolType type) {
+        switch (type) {
+            case ToolType.Axe: return Axe;
+            case ToolType.Shovel: return Shovel;
+            default: Debug.LogError("Oops! CraftableInfo not defined by type: " + type); return Undefined;
         }
     }
 
@@ -43,7 +60,7 @@ public struct PlaceableInfo {
     public bool CanAfford(PlayerInventory pi) {
         return pi.NumSticks >= SticksCost
             && pi.NumStones >= StonesCost
-            && pi.NumStrings >= StringsCost
+            && pi.NumTwines >= TwinesCost
         ;
     }
 }
@@ -58,12 +75,12 @@ public class SimpleBuildingBlock : MonoBehaviour, IClickable
 {
     // Statics
     const float NudgeDist = 0.2f;
-    public static PlaceableType[] AvailableTypes = { PlaceableType.StickHut, PlaceableType.Campfire };//, PlaceableType.StickRoof
+    public static CraftableType[] AvailableTypes = { CraftableType.StickHut, CraftableType.Campfire };//, PlaceableType.StickRoof
     // Components
     [SerializeField] private Rigidbody myRigidbody;
     private PlaceableBody myBody; // added/changed dynamically.
     // Properties
-    public PlaceableType MyType { get; private set; }
+    public CraftableType MyType { get; private set; }
     public WeatheredState WeatheredState { get; private set; }
     public float TimeInRain { get; private set; }
     private float prevWorldTime; // to calculate DeltaTime for low-frame update.
@@ -122,10 +139,10 @@ public class SimpleBuildingBlock : MonoBehaviour, IClickable
     public void Initialize(GameController _gameController, SimpleBuildingBlockData data) {
         Initialize(_gameController, data.pos, data.rot, data.scale, data.myType, data.TimeInRain);
     }
-    public void Initialize(GameController _gameController, Transform tf, PlaceableType _myType, float _timeInRain) {
+    public void Initialize(GameController _gameController, Transform tf, CraftableType _myType, float _timeInRain) {
         Initialize(_gameController, tf.position, tf.eulerAngles, tf.localScale, _myType, _timeInRain);
     }
-    public void Initialize(GameController _gameController, Vector3 pos, Vector3 rot, Vector3 scale, PlaceableType _myType, float _timeInRain) {
+    public void Initialize(GameController _gameController, Vector3 pos, Vector3 rot, Vector3 scale, CraftableType _myType, float _timeInRain) {
         this.gameController = _gameController;
         this.transform.parent = gameController.FieldPropsTF;
         this.transform.position = pos;
@@ -134,7 +151,7 @@ public class SimpleBuildingBlock : MonoBehaviour, IClickable
         prevWorldTime = WeatherController.WorldTime;
         this.MyType = _myType;
         myRigidbody.isKinematic = !(
-            MyType == PlaceableType.StickRoof
+            MyType == CraftableType.StickRoof
         );
 
         SetTimeInRain(_timeInRain);
@@ -230,7 +247,7 @@ public class SimpleBuildingBlock : MonoBehaviour, IClickable
         }
 
         // Spew out some resources, mate!
-        PlaceableInfo myInfo = PlaceableInfo.GetInfoFromType(MyType);
+        CraftableInfo myInfo = CraftableInfo.GetInfoFromType(MyType);
         int numSticks = Mathf.FloorToInt(myInfo.SticksCost * sellbackRatio);
         int numStones = Mathf.FloorToInt(myInfo.StonesCost * sellbackRatio);
 

@@ -80,6 +80,10 @@ public class GameController : MonoBehaviour
                     Tree newObj = Instantiate(ResourcesHandler.Instance.Tree).GetComponent<Tree>();
                     newObj.Initialize(fieldPropsTF, data);
                 }
+                foreach (TreeStumpData data in fieldPropsData.treeStumpDatas) {
+                    TreeStump newObj = Instantiate(ResourcesHandler.Instance.TreeStump).GetComponent<TreeStump>();
+                    newObj.Initialize(fieldPropsTF, data);
+                }
                 foreach (TrashPieceData data in fieldPropsData.trashPieceDatas) {
                     TrashPiece newObj = Instantiate(ResourcesHandler.Instance.TrashPiece).GetComponent<TrashPiece>();
                     newObj.Initialize(fieldPropsTF, data);
@@ -189,8 +193,8 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y)) { WeatherController.WorldTime += 10; }
         if (Input.GetKeyDown(KeyCode.U)) { player.Inventory.ChangeSticks(5); }
         if (Input.GetKeyDown(KeyCode.I)) { player.Inventory.ChangeStones(5); }
-        if (Input.GetKeyDown(KeyCode.X)) { player.ToolBelt.tools[0] = new Tool(ToolType.Axe, 1); }
-        if (Input.GetKeyDown(KeyCode.V)) { player.ToolBelt.tools[1] = new Tool(ToolType.Shovel, 1); }
+        if (Input.GetKeyDown(KeyCode.X)) { player.ToolBelt.TryToCraftTool(ToolType.Axe); }//.tools[0] = new Tool(ToolType.Axe, 1); }
+        if (Input.GetKeyDown(KeyCode.V)) { player.ToolBelt.TryToCraftTool(ToolType.Shovel); }//tools[1] = new Tool(ToolType.Shovel, 1); }
 
 
         // Reload scene

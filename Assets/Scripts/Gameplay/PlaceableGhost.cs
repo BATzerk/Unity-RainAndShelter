@@ -10,7 +10,7 @@ public class PlaceableGhost : MonoBehaviour {
     [SerializeField] private Material m_ghost_cantAfford;
     //[SerializeField] private Material m_ghost_;
     // Properties
-    public PlaceableType MyType { get; private set; }
+    public CraftableType MyType { get; private set; }
 
 
     // ----------------------------------------------------------------
@@ -22,7 +22,7 @@ public class PlaceableGhost : MonoBehaviour {
         }
     }
 
-    public void SetMyType(PlaceableType _type) {
+    public void SetMyType(CraftableType _type) {
         this.MyType = _type;
 
         // Destroy body.

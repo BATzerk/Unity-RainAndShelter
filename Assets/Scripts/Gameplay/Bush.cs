@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum BushType : int {
     Undefined,
-    Stick, String, Leaf
+    Stick, Twine, Leaf
 }
 
 public class Bush : MonoBehaviour, IClickable {
@@ -40,12 +40,18 @@ public class Bush : MonoBehaviour, IClickable {
         this.transform.position = pos;
         this.transform.eulerAngles = rot;
         this.transform.localScale = scale;
-        // Set my visuals based on my type!
-        // First, delete the placeholder visual.
-        //Destroy(myBodyGO);
-        //// Now, add the correct one!
-        //myBodyGO = Instantiate(ResourcesHandler.Instance.GetBushBody(myType));
-        //GameUtils.ParentAndReset(myBodyGO, transform);
+
+        // SLOPPY! Quick and dirty for now.
+        if (myType == BushType.Twine) {
+            for (int i=0; i<resourceBodyGOs.Length; i++) {
+                GameObject newGO = Instantiate(ResourcesHandler.Instance.TwineBody);
+                GameUtils.ParentAndReset(newGO, resourceBodyGOs[i].transform.parent);
+                newGO.transform.localPosition = resourceBodyGOs[i].transform.localPosition;
+                newGO.transform.localEulerAngles = resourceBodyGOs[i].transform.localEulerAngles;
+                Destroy(resourceBodyGOs[i]);
+                resourceBodyGOs[i] = newGO;
+            }
+        }
 
         // Setup basics.
         //numTimesClicked = 0;
@@ -84,14 +90,25 @@ public class Bush : MonoBehaviour, IClickable {
     public void OnLClickMe(Player player) {
         // We've got resources??
         if (numResourcesLeft > 0) {
-            // Spawn a stick!
+            // Spawn something!
             Vector3 _pos = transform.position + new Vector3(0, 1, 0);// Random.Range(0.5f, 5f), 0);
             Vector3 _rot = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
-            Stick newStick = GameObject.Instantiate(ResourcesHandler.Instance.Stick).GetComponent<Stick>();
-            Rigidbody rigidbody = newStick.GetComponent<Rigidbody>();
-            rigidbody.angularVelocity = new Vector3(Random.Range(-40, 40), Random.Range(-40, 40), Random.Range(-40, 40));
-            rigidbody.velocity = new Vector3(Random.Range(-1.2f, 1.2f), 4, Random.Range(-1.2f, 1.2f));
-            newStick.Initialize(transform.parent, _pos, _rot);
+            Rigidbody rb = null;
+            if (myType == BushType.Stick) {
+                Stick newObj = Instantiate(ResourcesHandler.Instance.Stick).GetComponent<Stick>();
+                rb = newObj.GetComponent<Rigidbody>();
+                newObj.Initialize(transform.parent, _pos, _rot);
+            }
+            else if (myType == BushType.Twine) {
+                Twine newObj = Instantiate(ResourcesHandler.Instance.Twine).GetComponent<Twine>();
+                rb = newObj.GetComponent<Rigidbody>();
+                newObj.Initialize(transform.parent, _pos, _rot);
+            }
+            else {
+                Debug.LogError("Whoops, we don't support making resources from this bush type: " + myType);
+            }
+            rb.angularVelocity = new Vector3(Random.Range(-40, 40), Random.Range(-40, 40), Random.Range(-40, 40));
+            rb.velocity = new Vector3(Random.Range(-1.2f, 1.2f), 4, Random.Range(-1.2f, 1.2f));
 
             // Decrement how many resources I have left!
             numResourcesLeft--;

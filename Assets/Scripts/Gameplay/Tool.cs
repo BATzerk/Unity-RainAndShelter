@@ -22,7 +22,6 @@ public class Tool
 
 
     public Tool(ToolType type, float health) {
-        Debug.Log("new tool: " + type + ", " + health);
         this.MyType = type;
         this.Health = health;
     }

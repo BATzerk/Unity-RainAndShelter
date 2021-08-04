@@ -9,7 +9,7 @@ public class InventoryUI : MonoBehaviour
     // Components
     [SerializeField] TextMeshProUGUI t_numSticks;
     [SerializeField] TextMeshProUGUI t_numStones;
-    [SerializeField] TextMeshProUGUI t_numString;
+    [SerializeField] TextMeshProUGUI t_numTwines;
     // References
     [SerializeField] private GameController gameController;
 
@@ -40,7 +40,7 @@ public class InventoryUI : MonoBehaviour
         PlayerInventory pi = gameController.Player.Inventory;
         t_numSticks.text = pi.NumSticks.ToString();
         t_numStones.text = pi.NumStones.ToString();
-        t_numString.text = pi.NumStrings.ToString();
+        t_numTwines.text = pi.NumTwines.ToString();
     }
 
 }

@@ -12488,7 +12488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   t_numSticks: {fileID: 334653241}
   t_numStones: {fileID: 812514841}
-  t_numString: {fileID: 1944083417}
+  t_numTwines: {fileID: 1944083417}
   gameController: {fileID: 763462540}
 --- !u!1001 &812514839
 PrefabInstance:
@@ -34683,7 +34683,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7523058849994325786, guid: 2cef1ae1b94bb4f29b6b453f154670fd, type: 3}
       propertyPath: m_Name
-      value: InventoryUIItem_String
+      value: InventoryUIItem_Twine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cef1ae1b94bb4f29b6b453f154670fd, type: 3}

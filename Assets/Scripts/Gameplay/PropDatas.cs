@@ -14,6 +14,7 @@ public class FieldPropsData {
     public List<StickData> stickDatas = new List<StickData>();
     public List<TrashPieceData> trashPieceDatas = new List<TrashPieceData>();
     public List<TreeData> treeDatas = new List<TreeData>();
+    public List<TreeStumpData> treeStumpDatas = new List<TreeStumpData>();
 
     // Creation
     public void PopulateFromWorld(Transform containerTF) {
@@ -21,6 +22,7 @@ public class FieldPropsData {
         bushDatas = new List<BushData>();
         campfireDatas = new List<CampfireData>();
         treeDatas = new List<TreeData>();
+        treeStumpDatas = new List<TreeStumpData>();
         stickDatas = new List<StickData>();
 
         foreach (SimpleBuildingBlock obj in containerTF.GetComponentsInChildren<SimpleBuildingBlock>()) {
@@ -47,6 +49,9 @@ public class FieldPropsData {
         foreach (Tree obj in containerTF.GetComponentsInChildren<Tree>()) {
             treeDatas.Add(new TreeData(obj));
         }
+        foreach (TreeStump obj in containerTF.GetComponentsInChildren<TreeStump>()) {
+            treeStumpDatas.Add(new TreeStumpData(obj));
+        }
     }
 }
 
@@ -67,7 +72,7 @@ public class PropData {
 [Serializable]
 public class SimpleBuildingBlockData : PropData {
     public float TimeInRain;
-    public PlaceableType myType;
+    public CraftableType myType;
     public SimpleBuildingBlockData(SimpleBuildingBlock myProp) {
         SetTFValues(myProp.gameObject);
         myType = myProp.MyType;
@@ -115,6 +120,12 @@ public class StickData : PropData {
     }
 }
 [Serializable]
+public class TwineData : PropData {
+    public TwineData(Twine myProp) {
+        SetTFValues(myProp.gameObject);
+    }
+}
+[Serializable]
 public class TrashPieceData : PropData {
     public TrashPieceType myType;
     public TrashPieceData(TrashPiece myProp) {
@@ -130,6 +141,14 @@ public class TreeData : PropData {
         SetTFValues(myProp.gameObject);
         treeType = myProp.MyType;
         numTimesChopped = myProp.NumTimesChopped;
+    }
+}
+[Serializable]
+public class TreeStumpData : PropData {
+    //public TreeType treeType;
+    public TreeStumpData(TreeStump myProp) {
+        SetTFValues(myProp.gameObject);
+        //treeType = myProp.MyType;
     }
 }
 

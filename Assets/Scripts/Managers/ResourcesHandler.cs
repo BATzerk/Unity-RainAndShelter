@@ -14,9 +14,13 @@ public class ResourcesHandler : MonoBehaviour {
     [SerializeField] public GameObject Rock;
     [SerializeField] public GameObject Stone;
     [SerializeField] public GameObject Stick;
+    [SerializeField] public GameObject Twine;
     [SerializeField] public GameObject SimpleBuildingBlock;
     [SerializeField] public GameObject TrashPiece;
     [SerializeField] public GameObject Tree;
+    [SerializeField] public GameObject TreeStump;
+    [SerializeField] public GameObject StickBody;
+    [SerializeField] public GameObject TwineBody;
     [SerializeField] private GameObject[] bushBodies; // the sub-prefabs.
     [SerializeField] private GameObject[] trashPieceBodies; // the sub-prefabs.
     // Placeables
@@ -45,7 +49,7 @@ public class ResourcesHandler : MonoBehaviour {
         //return bushBodies[type];
         switch (type) {
             case BushType.Stick: return bushBodies[0];
-            case BushType.String: return bushBodies[1];
+            case BushType.Twine: return bushBodies[1];
             case BushType.Leaf: return bushBodies[2];
             default: Debug.LogError("Oops, no bush body in ResourcesHandler for this BushType: " + type); return bushBodies[0];
         }
@@ -60,17 +64,17 @@ public class ResourcesHandler : MonoBehaviour {
             default: Debug.LogError("Oops, no body in ResourcesHandler for this TrashPieceType: " + type); return trashPieceBodies[0];
         }
     }
-    public GameObject GetPlaceableBody(PlaceableType type, WeatheredState state) {
+    public GameObject GetPlaceableBody(CraftableType type, WeatheredState state) {
         switch (type) {
-            case PlaceableType.Campfire: return campfireBody;
-            case PlaceableType.StickHut:
+            case CraftableType.Campfire: return campfireBody;
+            case CraftableType.StickHut:
                 switch (state) {
                     case WeatheredState.Good: return stickHutBodies[0];
                     case WeatheredState.Leaky: return stickHutBodies[1];
                     default: return stickHutBodies[2];
                 }
-            case PlaceableType.StickPillar: return stickPillarBody;
-            case PlaceableType.StickRoof: return stickRoofBody;
+            case CraftableType.StickPillar: return stickPillarBody;
+            case CraftableType.StickRoof: return stickRoofBody;
             default: Debug.LogError("Oops, no PlaceableBody in ResourcesHandler for this PlaceableType: " + type); return stickPillarBody;
         }
     }

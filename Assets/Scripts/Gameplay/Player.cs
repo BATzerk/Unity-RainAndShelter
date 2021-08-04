@@ -67,6 +67,7 @@ public class Player : MonoBehaviour {
             else {
                 ToolBelt = new PlayerToolBelt();
             }
+            ToolBelt.SetMyPlayer(this);
         }
         // Initialize Hand.
         Hand.Initialize();

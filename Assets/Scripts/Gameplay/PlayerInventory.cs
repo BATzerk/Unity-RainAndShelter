@@ -8,12 +8,12 @@ public class PlayerInventory {
     // Properties
     [SerializeField] private int numSticks;
     [SerializeField] private int numStones;
-    [SerializeField] private int numStrings;
+    [SerializeField] private int numTwines;
 
     // Getters / Setters
     public int NumSticks { get { return numSticks; } }
     public int NumStones { get { return numStones; } }
-    public int NumStrings { get { return numStrings; } }
+    public int NumTwines { get { return numTwines; } }
     public void SetNumSticks(int val) {
         numSticks = val;
         EventBus.Instance.OnPlayerInventoryChanged();
@@ -22,8 +22,8 @@ public class PlayerInventory {
         numStones = val;
         EventBus.Instance.OnPlayerInventoryChanged();
     }
-    public void SetNumStrings(int val) {
-        numStrings = val;
+    public void SetNumTwines(int val) {
+        numTwines = val;
         EventBus.Instance.OnPlayerInventoryChanged();
     }
 
@@ -32,7 +32,7 @@ public class PlayerInventory {
     public PlayerInventory() {
         numSticks = 0;
         numStones = 0;
-        numStrings = 0;
+        numTwines = 0;
     }
 
 
@@ -43,13 +43,13 @@ public class PlayerInventory {
     public void ChangeStones(int delta) {
         SetNumStones(numStones + delta);
     }
-    public void ChangeStrings(int delta) {
-        SetNumStrings(numStrings + delta);
+    public void ChangeTwines(int delta) {
+        SetNumTwines(numTwines + delta);
     }
-    public void PayForCost(PlaceableInfo placeableInfo) {
-        ChangeSticks(-placeableInfo.SticksCost);
-        ChangeStones(-placeableInfo.StonesCost);
-        ChangeStrings(-placeableInfo.StringsCost);
+    public void PayForCost(CraftableInfo craftableInfo) {
+        ChangeSticks(-craftableInfo.SticksCost);
+        ChangeStones(-craftableInfo.StonesCost);
+        ChangeTwines(-craftableInfo.TwinesCost);
     }
 
 }

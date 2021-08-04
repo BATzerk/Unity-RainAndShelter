@@ -136,9 +136,13 @@ MonoBehaviour:
   Rock: {fileID: 8226623138055876833, guid: 93531b1c5e16d417e8ecc3f6d9098a41, type: 3}
   Stone: {fileID: 5288428147559673994, guid: 2bf23bfbc3d1b45e4bc653c455b485be, type: 3}
   Stick: {fileID: 5288428147559673994, guid: 80e74fab446774d408679c59ff9fdaf6, type: 3}
+  Twine: {fileID: 5288428147559673994, guid: f59ecc9c8cc8f4c6b9e57e95cce560db, type: 3}
   SimpleBuildingBlock: {fileID: 7891357218825188859, guid: c8d3e65801807491f90a2a44819f4e32, type: 3}
   TrashPiece: {fileID: 3806992662087208700, guid: f01c3e28319ab4da485a5b2e81199040, type: 3}
   Tree: {fileID: 1148613061152340, guid: eded051879df4c147b9010199d240258, type: 3}
+  TreeStump: {fileID: 1148613061152340, guid: b23bf732457424bc3b5c322ef9f1816e, type: 3}
+  StickBody: {fileID: 1957455260821886398, guid: d3d055f181e154c60aa46a4c276084f7, type: 3}
+  TwineBody: {fileID: 1957455260821886398, guid: a188d5bd0d1774938904ba306d601068, type: 3}
   bushBodies:
   - {fileID: 919132149155446097, guid: f17a987baceb24d1dbbd41da97916176, type: 3}
   - {fileID: 7992715529498131577, guid: 0cc0db2b14252644da9f1f74ed0c8f90, type: 3}

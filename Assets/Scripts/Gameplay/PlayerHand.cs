@@ -27,7 +27,7 @@ public class PlayerHand : MonoBehaviour {
     private int currPlaceableTypeIndex; // index in Placeable.AvailableTypes!
     public int currToolIndex { get; private set; }
     public Tool currTool { get; private set; } // depends on currToolIndex. Can be Hand, Axe, or Shovel.
-    private PlaceableInfo currPlaceableInfo;
+    private CraftableInfo currPlaceableInfo;
     private RaycastHit hit;
     private RaycastHit[] hits;
     // References
@@ -97,14 +97,14 @@ public class PlayerHand : MonoBehaviour {
 
     private void SetCurrPlaceableTypeIndex(int val) {
         currPlaceableTypeIndex = val;
-        PlaceableType type = SimpleBuildingBlock.AvailableTypes[currPlaceableTypeIndex];
-        currPlaceableInfo = PlaceableInfo.GetInfoFromType(type);
+        CraftableType type = SimpleBuildingBlock.AvailableTypes[currPlaceableTypeIndex];
+        currPlaceableInfo = CraftableInfo.GetInfoFromType(type);
         placeableGhost.SetMyType(type);
         UpdatePlaceableCanAffordVisuals();
         isPlaceableGroundlocked =
-            type == PlaceableType.Campfire
-         || type == PlaceableType.StickPillar
-         || type == PlaceableType.StickHut
+            type == CraftableType.Campfire
+         || type == CraftableType.StickPillar
+         || type == CraftableType.StickHut
         ;
     }
     private void ChangeTypePlacing(int delta) {
@@ -120,15 +120,15 @@ public class PlayerHand : MonoBehaviour {
 
     private void PlaceNewObjectAtGhost() {
         // Place it!
-        PlaceableType type = placeableGhost.MyType;
+        CraftableType type = placeableGhost.MyType;
         switch (type) {
-            case PlaceableType.Campfire:
+            case CraftableType.Campfire:
                 Campfire campfire = Instantiate(ResourcesHandler.Instance.Campfire).GetComponent<Campfire>();
                 campfire.Initialize(gameController.FieldPropsTF, placeableGhost.transform, true);
                 break;
-            case PlaceableType.StickHut:
-            case PlaceableType.StickPillar:
-            case PlaceableType.StickRoof:
+            case CraftableType.StickHut:
+            case CraftableType.StickPillar:
+            case CraftableType.StickRoof:
                 SimpleBuildingBlock buildingBlock = Instantiate(ResourcesHandler.Instance.SimpleBuildingBlock).GetComponent<SimpleBuildingBlock>();
                 buildingBlock.Initialize(gameController, placeableGhost.transform, placeableGhost.MyType, 0);
                 break;

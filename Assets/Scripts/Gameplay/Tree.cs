@@ -72,6 +72,10 @@ public class Tree : MonoBehaviour, IClickable {
                 Stick newStick = GameObject.Instantiate(ResourcesHandler.Instance.Stick).GetComponent<Stick>();
                 newStick.Initialize(transform.parent, _pos, _rot);
             }
+            // Spawn a Forrest Stump!
+            TreeStump newStump = Instantiate(ResourcesHandler.Instance.TreeStump).GetComponent<TreeStump>();
+            newStump.Initialize(transform.parent, this.transform.position, this.transform.eulerAngles, this.transform.lossyScale);
+
             // Finally, destroy me. I'm toast.
             Destroy(gameObject);
         }
